@@ -30,7 +30,7 @@ export default class ContactPage extends React.Component {
             ></img>
 
             <h2>Phone</h2>
-            <p>+1 (902) 440-1234</p>
+            <p style={{ color: '#0066B3' }}>+1 (902) 440-1234</p>
           </div>
 
           <div className="contact-item">
@@ -40,7 +40,7 @@ export default class ContactPage extends React.Component {
               alt="Email Icon"
             ></img>
             <h2>Email</h2>
-            <p>info@autocare.com</p>
+            <p style={{ color: '#0066B3' }}>info@autocare.com</p>
           </div>
 
           <div className="contact-item">
@@ -50,7 +50,7 @@ export default class ContactPage extends React.Component {
               alt="Internet Icon"
             ></img>
             <h2>Website</h2>
-            <p>autocare.com</p>
+            <p style={{ color: '#0066B3' }}>autocare.com</p>
           </div>
         </div>
 
