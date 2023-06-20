@@ -77,7 +77,7 @@ export default class ContactPage extends React.Component {
           <div className="contact-page-image">
             <img
               src={carWashImage1}
-              alt="car wash image"
+              alt="black car getting washed"
               className="car-wash-image"
             ></img>
           </div>
