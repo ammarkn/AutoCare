@@ -2,6 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import FAQ from './components/FAQ'
+import ContactPage from './pages/ContactPage';
 
 function App() {
   return (
@@ -9,6 +10,9 @@ function App() {
       <Router>
         <Routes>
           <Route path="/faq" element={<FAQ/>}/>
+
+          <Route path="/contact" element={<ContactPage/>}/>
+
         </Routes>
       </Router>
       <header className="App-header">
