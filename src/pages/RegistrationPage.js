@@ -2,7 +2,7 @@
 
 // import React, { useState } from "react";
 import React from "react";
-import "./css/RegistrationPage/RegistrationPage.css";
+import "./css/RegistrationPage.css";
 import signUpImage from "./images/signup-image.png";
 
 const RegistrationPage = () => {
