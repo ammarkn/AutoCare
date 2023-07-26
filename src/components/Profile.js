@@ -15,7 +15,7 @@ function Profile() {
 
     useEffect(() => {
         const userId = 1;
-        axios.get(`/user?id=${userId}`)
+        axios.get(`https://csci-4177-grp-21.onrender.com/user?id=${userId}`)
             .then((response) => {
                 setFirstName(response.data.firstName);
                 setLastName(response.data.lastName);
