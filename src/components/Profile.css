@@ -1,0 +1,33 @@
+.container {
+    padding: 1em;
+  }
+  
+  h1 {
+    color: #0066B3;
+  }
+
+  h2 {
+    color: #0066B3;
+  }
+
+  h3 {
+    color: #000000;
+  }
+
+  strong {
+    font-weight: bold;
+  }
+  
+  .grid {
+    display: grid;
+    gap: 1em;
+  }
+
+  .vehicle-image{
+    max-width: 250px;
+    max-height: 250px;
+  }
+  
+  .item {
+    padding: 0.5em;
+  }
