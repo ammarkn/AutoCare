@@ -5,6 +5,9 @@ import ContactPage from "./pages/ContactPage";
 import HomePage from "./pages/HomePage";
 import NavBar from "./components/NavBar";
 import Vendors from "./pages/Vendors"
+import VendorInformation from "./pages/VendorInformation";
+import Profile from "./components/Profile";
+import VendorReview from "./pages/VendorReview";
 
 function App() {
   return (
@@ -16,7 +19,12 @@ function App() {
         <Routes>
           <Route path="/faq" element={<FAQ />} />
           <Route path="/vendors" element={<Vendors />} />
+          <Route path="/vendors/:id" element={<VendorInformation />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="/contact" element={<ContactPage />} />
+
+          <Route path="/review" element={<VendorReview />} />
+
           <Route path="/" element={<HomePage />} />
         </Routes>
       </Router>
