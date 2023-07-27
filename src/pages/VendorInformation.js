@@ -1,7 +1,6 @@
 // Created by 
 // SAMEER MOHAMED, B00845973
 
-
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
@@ -25,6 +24,7 @@ const VendorInformation = () => {
         }
     }, [id]);
 
+    
     return (
         <div>
             <h1>Vendor Information</h1>
@@ -48,7 +48,6 @@ const VendorInformation = () => {
                             <p>Includes everything in the Standard Package, plus engine detailing and paint sealant application.</p>
                         </div>
                     </div>
-
                 </div>
             ) : (
                 <p>Loading vendor information...</p>
