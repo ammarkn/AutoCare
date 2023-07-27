@@ -67,7 +67,7 @@ function Profile() {
                 <style>{'body { background-color: #F5F5F5; }'}</style>
             </Helmet>
             <h1>Profile</h1>
-            <h3>Hi there!</h3>
+            <h3>Hello there!</h3>
             <div className='grid'>
                 <div>
                     <h2>You</h2>
