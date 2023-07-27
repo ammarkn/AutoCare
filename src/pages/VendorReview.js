@@ -3,13 +3,14 @@ import "./css/VendorReview.css";
 import Rating from "@mui/material/Rating";
 import React, { useState } from "react";
 import axios from "axios";
+import AllVendorReview from "../components/AllVendorReview";
 
 function VendorReview() {
   const [ratingValue, setRatingValue] = useState(3);
   const [reviewHeading, setReviewHeading] = useState("");
   const [reviewDescription, setReviewDescription] = useState("");
   // TODO: get current vendor id, once the vendor page is implemented
-  const vendorId = 3;
+  const vendorId = 1;
 
   const handleHeadingChange = (event) => {
     setReviewHeading(event.target.value);
@@ -34,9 +35,11 @@ function VendorReview() {
       .post("https://csci-4177-grp-21.onrender.com/addReview", newReview)
       .then((response) => {
         console.log(response.data);
+        alert("Review Added Successfully!");
       })
       .catch((error) => {
         console.error(error);
+        alert("There was some error, Please try again.");
       });
   };
 
@@ -95,6 +98,8 @@ function VendorReview() {
           ></img>
         </div>
       </div>
+
+      <AllVendorReview></AllVendorReview>
     </div>
   );
 }
