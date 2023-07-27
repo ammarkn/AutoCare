@@ -43,7 +43,8 @@ app.get('/user', (req, res) => {
 });
 
 
-app.post('https://csci-4177-grp-21.onrender.com/api/register', async (req, res) => {
+// Function by Yara
+app.post('/api/register', async (req, res) => {
   const { FirstName, LastName, Email, Password } = req.body;
 
   const UserID = uuid.v4(); 
