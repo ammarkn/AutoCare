@@ -30,7 +30,7 @@ function Profile() {
                 setEmail(response.data.email);
                 setPassword(response.data.password);
                 setAddress(response.data.address);
-                setDateJoined(new Date(response.data.dateJoined).toLocaleDateString());
+                setDateJoined(response.data.dateJoined);
                 setEditFirstName(response.data.firstName);
                 setEditLastName(response.data.lastName);
                 setEditEmail(response.data.email);
