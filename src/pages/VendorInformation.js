@@ -53,7 +53,7 @@ const VendorInformation = () => {
     }, [id]);
 
     const fetchVendorDetails = () => {
-        axios.get(`/vendors/${id}`)
+        axios.get(`https://csci-4177-grp-21.onrender.com/vendors/${id}`)
             .then((response) => setVendorDetails(response.data))
             .catch((error) => console.error("Error fetching vendor details:", error));
     };
