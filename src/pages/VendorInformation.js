@@ -1,7 +1,3 @@
-// Created by 
-// SAMEER MOHAMED, B00845973
-
-
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
@@ -11,18 +7,19 @@ const VendorInformation = () => {
     const { id } = useParams();
 
     useEffect(() => {
+        const fetchVendorDetails = () => {
+            axios.get(`https://csci-4177-grp-21.onrender.com/vendors/${id}`)
+                .then((response) => setVendorDetails(response.data))
+                .catch((error) => console.error("Error fetching vendor details:", error));
+        };
+
         if (id) {
             fetchVendorDetails();
         }
-    }, [id]);
-
-    const fetchVendorDetails = () => {
-        axios.get(`https://csci-4177-grp-21.onrender.com/vendors/${id}`)
-            .then((response) => setVendorDetails(response.data))
-            .catch((error) => console.error("Error fetching vendor details:", error));
-    };
+    }, [id, fetchVendorDetails]);
 
     return (
+        <div>
         <div>
             <h1>Vendor Information</h1>
             <h2>WELCOME TO</h2>
