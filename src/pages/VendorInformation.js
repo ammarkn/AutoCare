@@ -1,41 +1,5 @@
-// import React, { useEffect, useState } from "react";
-// import axios from 'axios';
-// import { useParams } from 'react-router-dom'; // Import useParams
-
-// const VendorInformation = () => {
-//   const [vendorDetails, setVendorDetails] = useState(null);
-//   const { id } = useParams(); // Access the "id" from the URL parameter using useParams()
-
-//   useEffect(() => {
-//     if (id) {
-//       fetchVendorDetails();
-//     }
-//   }, [id]);
-
-//   const fetchVendorDetails = () => {
-//     axios.get(`/vendors/${id}`)
-//       .then((response) => setVendorDetails(response.data))
-//       .catch((error) => console.error("Error fetching vendor details:", error));
-//   };
-
-//   return (
-//     <div>
-//       <h1>Vendor Information</h1>
-//       {vendorDetails ? (
-//         <div className="vendor-info">
-//           <h2 className="vendor-name">{vendorDetails.vendor_name}</h2>
-//           <p className="vendor-description">{vendorDetails.description}</p>
-//           {/* Add other vendor details here */}
-//         </div>
-//       ) : (
-//         <p>Loading vendor information...</p>
-//       )}
-//     </div>
-//   );
-// };
-
-// export default VendorInformation;
-
+// Created by 
+// SAMEER MOHAMED, B00845973
 
 
 import React, { useEffect, useState } from "react";
@@ -47,16 +11,19 @@ const VendorInformation = () => {
     const { id } = useParams();
 
     useEffect(() => {
+        const fetchVendorDetails = async () => {
+            try {
+                const response = await axios.get(`vendors/${id}`);
+                setVendorDetails(response.data);
+            } catch (error) {
+                console.error("Error fetching vendor details:", error);
+            }
+        };
+
         if (id) {
             fetchVendorDetails();
         }
     }, [id]);
-
-    const fetchVendorDetails = () => {
-        axios.get(`https://csci-4177-grp-21.onrender.com/vendors/${id}`)
-            .then((response) => setVendorDetails(response.data))
-            .catch((error) => console.error("Error fetching vendor details:", error));
-    };
 
     return (
         <div>
