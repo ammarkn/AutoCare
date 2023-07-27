@@ -20,7 +20,6 @@ const VendorInformation = () => {
 
     return (
         <div>
-        <div>
             <h1>Vendor Information</h1>
             <h2>WELCOME TO</h2>
             {vendorDetails ? (
@@ -42,7 +41,6 @@ const VendorInformation = () => {
                             <p>Includes everything in the Standard Package, plus engine detailing and paint sealant application.</p>
                         </div>
                     </div>
-
                 </div>
             ) : (
                 <p>Loading vendor information...</p>
