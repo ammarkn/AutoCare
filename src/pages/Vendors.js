@@ -15,7 +15,7 @@ const Vendor = () => {
   }, []);
 
   const fetchVendors = () => {
-    axios.get('/vendors')
+    axios.get('https://csci-4177-grp-21.onrender.com/vendors')
       .then((response) => setVendors(response.data))
       .catch((error) => console.error("Error fetching vendors:", error));
   };
