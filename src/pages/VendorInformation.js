@@ -6,17 +6,17 @@ const VendorInformation = () => {
     const [vendorDetails, setVendorDetails] = useState(null);
     const { id } = useParams();
 
-    useEffect(() => {
-        const fetchVendorDetails = () => {
-            axios.get(`https://csci-4177-grp-21.onrender.com/vendors/${id}`)
-                .then((response) => setVendorDetails(response.data))
-                .catch((error) => console.error("Error fetching vendor details:", error));
-        };
+    const fetchVendorDetails = () => {
+        axios.get(`https://csci-4177-grp-21.onrender.com/vendors/${id}`)
+            .then((response) => setVendorDetails(response.data))
+            .catch((error) => console.error("Error fetching vendor details:", error));
+    };
 
+    useEffect(() => {
         if (id) {
             fetchVendorDetails();
         }
-    }, [id, fetchVendorDetails]);
+    }, [id]);
 
     return (
         <div>
