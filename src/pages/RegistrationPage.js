@@ -21,7 +21,7 @@ const RegistrationPage = () => {
 
     const registerUser = async () => {
         try {
-          const response = await fetch('/api/register', {
+          const response = await fetch('https://csci-4177-grp-21.onrender.com/api/register', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -35,7 +35,7 @@ const RegistrationPage = () => {
           });
     
           if (response.ok) {
-            console.log('Registration Successful');
+            alert('Registration Successful');
           } else {
             alert('There was an error with your registration. Please try again later.');
           }
