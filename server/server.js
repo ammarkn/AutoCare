@@ -3,6 +3,9 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 
 
+var uuid = require('uuid');
+const bcrypt = require('bcrypt');
+
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -23,7 +26,7 @@ if (err) throw err;
 });
 module.exports = conn;
 
-const port = process.env.PORT || 5001;
+const port = process.env.PORT || 5022;
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
@@ -143,6 +146,36 @@ app.get('/vendors/:id', (req, res) => {
   });
 });
 
+
+// Function by Yara
+app.post('/api/register', async (req, res) => {
+  const { FirstName, LastName, Email, Password } = req.body;
+
+  const UserID = uuid.v4(); 
+
+  try {
+
+    const hashedPass = await bcrypt.hash(Password, 10);
+
+    const sql = 'INSERT INTO Users (UserID, FirstName, LastName, Email, Password) VALUES (?, ?, ?, ?, ?)';
+    
+    conn.query(sql, [UserID, FirstName, LastName, Email, hashedPass], (err, result) => {
+      
+      if (err) {
+        console.error('An error occurred when inserting user details:', err);
+        res.status(500).json({ error: 'An error occurred during registration.' });
+      } else {
+        res.status(200).json({ message: 'Registration successful.' });
+      }
+
+    });
+
+  } catch (error) {
+    console.error('Registration error:', error);
+    res.status(500).json({ error: 'An error occurred during registration.' });
+  }
+}); // <-- Added the closing curly brace here
+
 app.post('/addReview', (req, res) => {
   console.log(req.body);
   const sql = 'INSERT INTO vendors_review (vendor_id, rating, heading, description) VALUES (?, ?, ?, ?)';
@@ -156,3 +189,4 @@ app.post('/addReview', (req, res) => {
     }
   })
 });
+
