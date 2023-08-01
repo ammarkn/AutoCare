@@ -1,0 +1,39 @@
+/* Created by 
+SAMEER MOHAMED, B00845973 */
+.vendor-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    width: 80vw;
+    margin: auto;
+  }
+  
+  .vendor-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .vendor-image {
+    width: 700px;
+    height: 400px;
+    object-fit: cover;
+    margin-bottom: 1rem;
+  }
+  
+  .vendor-name {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 0.5rem;
+  }
+  
+  .vendor-description {
+    font-size: 1rem;
+    color: #666;
+    text-align: center;
+  }
+  
