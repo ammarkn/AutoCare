@@ -86,12 +86,29 @@ app.get('/review', (req, res) => {
 });
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 // Function by Yara
 // this function takes user input and checks if a user exists.
 // If a user exists, an error occurs and user is prompted to log in.
 // If a user does not exist, the user is added to the database and their account is created successfully.
 =======
+=======
+app.post('/addReview', (req, res) => {
+  console.log(req.body);
+  const sql = 'INSERT INTO vendors_review (vendor_id, rating, heading, description) VALUES (?, ?, ?, ?)';
+  const { vendor_id, rating, heading, description } = req.body;
+  conn.query(sql, [vendor_id, rating, heading, description], (err) => {
+    if(err) {
+      throw err;
+    }
+    else {
+      res.send('review added');
+    }
+  })
+});
+
+>>>>>>> 0c8d324b0761d17bbd97d12eb2b8807a24f23793
 app.get('/vendors', (req, res) => {
   const sql = 'SELECT * FROM vendors';
   conn.query(sql, (err, result) => {
@@ -155,7 +172,13 @@ app.get('/vendors/:id', (req, res) => {
 
 
 // Function by Yara
+<<<<<<< HEAD
 >>>>>>> main
+=======
+// this function takes user input and checks if a user exists.
+// If a user exists, an error occurs and user is prompted to log in.
+// If a user does not exist, the user is added to the database and their account is created successfully.
+>>>>>>> 0c8d324b0761d17bbd97d12eb2b8807a24f23793
 app.post('/api/register', async (req, res) => {
   const { FirstName, LastName, Email, Password } = req.body;
 
@@ -164,6 +187,9 @@ app.post('/api/register', async (req, res) => {
   try {
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 0c8d324b0761d17bbd97d12eb2b8807a24f23793
     const checkIfUserExists = 'SELECT * FROM Users WHERE Email = ?';
     conn.query(checkIfUserExists, [Email], async(checkError, checkResult) => {
       if (checkError) {
@@ -188,6 +214,7 @@ app.post('/api/register', async (req, res) => {
           res.status(200).json({ message: 'Registration successful.' });
         }
       });
+<<<<<<< HEAD
 =======
     const hashedPass = await bcrypt.hash(Password, 10);
 
@@ -203,16 +230,22 @@ app.post('/api/register', async (req, res) => {
       }
 
 >>>>>>> main
+=======
+>>>>>>> 0c8d324b0761d17bbd97d12eb2b8807a24f23793
     });
 
   } catch (error) {
     console.error('Registration error:', error);
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 0c8d324b0761d17bbd97d12eb2b8807a24f23793
     return res.status(500).json({ error: 'An error occurred during registration.' });
   }
 });
 
 
+<<<<<<< HEAD
 =======
     res.status(500).json({ error: 'An error occurred during registration.' });
   }
@@ -296,3 +329,5 @@ app.get('/vendors/:id', (req, res) => {
 });
 =======
 >>>>>>> main
+=======
+>>>>>>> 0c8d324b0761d17bbd97d12eb2b8807a24f23793
