@@ -41,7 +41,11 @@ const RegistrationPage = () => {
           }
         } catch (error) {
           console.error('Registration error:', error);
+<<<<<<< HEAD
           alert('Registration error. Please try again later.');
+=======
+          alert('There was an error with your registration. Please try again later.');
+>>>>>>> main
         }
     };
 
