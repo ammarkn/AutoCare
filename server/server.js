@@ -144,3 +144,64 @@ app.post('/addReview', (req, res) => {
     }
   })
 });
+
+app.get('/vendors', (req, res) => {
+  const sql = 'SELECT * FROM vendors';
+  conn.query(sql, (err, result) => {
+    if (err) {
+      console.error("Error fetching vendors:", err);
+      res.status(500).send("Error fetching vendors");
+    } else {
+      res.json(result);
+    }
+  });
+});
+
+app.get('/vendors/:id', (req, res) => {
+  const vendorId = req.params.id;
+  const sql = 'SELECT * FROM vendors WHERE vendor_id = ?';
+  conn.query(sql, [vendorId], (err, result) => {
+    if (err) {
+      console.error("Error fetching vendor details:", err);
+      res.status(500).send("Error fetching vendor details");
+    } else {
+      if (result.length === 0) {
+        res.status(404).send("Vendor not found");
+      } else {
+        res.json(result[0]);
+      }
+    }
+  });
+});
+app.get('/vendors/:id', (req, res) => {
+  const vendorId = req.params.id;
+  const sql = 'SELECT * FROM vendors WHERE vendor_id = ?';
+  conn.query(sql, [vendorId], (err, result) => {
+    if (err) {
+      console.error("Error fetching vendor details:", err);
+      res.status(500).send("Error fetching vendor details");
+    } else {
+      if (result.length === 0) {
+        res.status(404).send("Vendor not found");
+      } else {
+        res.json(result[0]);
+      }
+    }
+  });
+});
+app.get('/vendors/:id', (req, res) => {
+  const vendorId = req.params.id;
+  const sql = 'SELECT * FROM vendors WHERE vendor_id = ?';
+  conn.query(sql, [vendorId], (err, result) => {
+    if (err) {
+      console.error("Error fetching vendor details:", err);
+      res.status(500).send("Error fetching vendor details");
+    } else {
+      if (result.length === 0) {
+        res.status(404).send("Vendor not found");
+      } else {
+        res.json(result[0]);
+      }
+    }
+  });
+});
