@@ -85,15 +85,6 @@ app.get('/review', (req, res) => {
     });
 });
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-// Function by Yara
-// this function takes user input and checks if a user exists.
-// If a user exists, an error occurs and user is prompted to log in.
-// If a user does not exist, the user is added to the database and their account is created successfully.
-=======
-=======
 app.post('/addReview', (req, res) => {
   console.log(req.body);
   const sql = 'INSERT INTO vendors_review (vendor_id, rating, heading, description) VALUES (?, ?, ?, ?)';
@@ -108,7 +99,6 @@ app.post('/addReview', (req, res) => {
   })
 });
 
->>>>>>> 0c8d324b0761d17bbd97d12eb2b8807a24f23793
 app.get('/vendors', (req, res) => {
   const sql = 'SELECT * FROM vendors';
   conn.query(sql, (err, result) => {
@@ -172,13 +162,9 @@ app.get('/vendors/:id', (req, res) => {
 
 
 // Function by Yara
-<<<<<<< HEAD
->>>>>>> main
-=======
 // this function takes user input and checks if a user exists.
 // If a user exists, an error occurs and user is prompted to log in.
 // If a user does not exist, the user is added to the database and their account is created successfully.
->>>>>>> 0c8d324b0761d17bbd97d12eb2b8807a24f23793
 app.post('/api/register', async (req, res) => {
   const { FirstName, LastName, Email, Password } = req.body;
 
@@ -186,12 +172,10 @@ app.post('/api/register', async (req, res) => {
 
   try {
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 0c8d324b0761d17bbd97d12eb2b8807a24f23793
     const checkIfUserExists = 'SELECT * FROM Users WHERE Email = ?';
+
     conn.query(checkIfUserExists, [Email], async(checkError, checkResult) => {
+      
       if (checkError) {
         console.error('An error occurred when verifying that user does not exist:', checkError);
         return res.status(500).json({ error: 'An error occurred during registration.' });
@@ -203,9 +187,9 @@ app.post('/api/register', async (req, res) => {
 
       const hashedPass = await bcrypt.hash(Password, 10);
 
-      const sql = 'INSERT INTO Users (UserID, FirstName, LastName, Email, Password) VALUES (?, ?, ?, ?, ?)';
+      const addUser = 'INSERT INTO Users (UserID, FirstName, LastName, Email, Password) VALUES (?, ?, ?, ?, ?)';
     
-      conn.query(sql, [UserID, FirstName, LastName, Email, hashedPass], (err, result) => {
+      conn.query(addUser, [UserID, FirstName, LastName, Email, hashedPass], (err, result) => {
       
         if (err) {
           console.error('An error occurred when inserting user details:', err);
@@ -214,120 +198,12 @@ app.post('/api/register', async (req, res) => {
           res.status(200).json({ message: 'Registration successful.' });
         }
       });
-<<<<<<< HEAD
-=======
-    const hashedPass = await bcrypt.hash(Password, 10);
 
-    const sql = 'INSERT INTO Users (UserID, FirstName, LastName, Email, Password) VALUES (?, ?, ?, ?, ?)';
-    
-    conn.query(sql, [UserID, FirstName, LastName, Email, hashedPass], (err, result) => {
-      
-      if (err) {
-        console.error('An error occurred when inserting user details:', err);
-        res.status(500).json({ error: 'An error occurred during registration.' });
-      } else {
-        res.status(200).json({ message: 'Registration successful.' });
-      }
-
->>>>>>> main
-=======
->>>>>>> 0c8d324b0761d17bbd97d12eb2b8807a24f23793
     });
 
   } catch (error) {
     console.error('Registration error:', error);
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 0c8d324b0761d17bbd97d12eb2b8807a24f23793
     return res.status(500).json({ error: 'An error occurred during registration.' });
   }
 });
 
-
-<<<<<<< HEAD
-=======
-    res.status(500).json({ error: 'An error occurred during registration.' });
-  }
-}); // <-- Added the closing curly brace here
->>>>>>> main
-
-app.post('/addReview', (req, res) => {
-  console.log(req.body);
-  const sql = 'INSERT INTO vendors_review (vendor_id, rating, heading, description) VALUES (?, ?, ?, ?)';
-  const { vendor_id, rating, heading, description } = req.body;
-  conn.query(sql, [vendor_id, rating, heading, description], (err) => {
-    if(err) {
-      throw err;
-    }
-    else {
-      res.send('review added');
-    }
-  })
-});
-
-<<<<<<< HEAD
-app.get('/vendors', (req, res) => {
-  const sql = 'SELECT * FROM vendors';
-  conn.query(sql, (err, result) => {
-    if (err) {
-      console.error("Error fetching vendors:", err);
-      res.status(500).send("Error fetching vendors");
-    } else {
-      res.json(result);
-    }
-  });
-});
-
-app.get('/vendors/:id', (req, res) => {
-  const vendorId = req.params.id;
-  const sql = 'SELECT * FROM vendors WHERE vendor_id = ?';
-  conn.query(sql, [vendorId], (err, result) => {
-    if (err) {
-      console.error("Error fetching vendor details:", err);
-      res.status(500).send("Error fetching vendor details");
-    } else {
-      if (result.length === 0) {
-        res.status(404).send("Vendor not found");
-      } else {
-        res.json(result[0]);
-      }
-    }
-  });
-});
-app.get('/vendors/:id', (req, res) => {
-  const vendorId = req.params.id;
-  const sql = 'SELECT * FROM vendors WHERE vendor_id = ?';
-  conn.query(sql, [vendorId], (err, result) => {
-    if (err) {
-      console.error("Error fetching vendor details:", err);
-      res.status(500).send("Error fetching vendor details");
-    } else {
-      if (result.length === 0) {
-        res.status(404).send("Vendor not found");
-      } else {
-        res.json(result[0]);
-      }
-    }
-  });
-});
-app.get('/vendors/:id', (req, res) => {
-  const vendorId = req.params.id;
-  const sql = 'SELECT * FROM vendors WHERE vendor_id = ?';
-  conn.query(sql, [vendorId], (err, result) => {
-    if (err) {
-      console.error("Error fetching vendor details:", err);
-      res.status(500).send("Error fetching vendor details");
-    } else {
-      if (result.length === 0) {
-        res.status(404).send("Vendor not found");
-      } else {
-        res.json(result[0]);
-      }
-    }
-  });
-});
-=======
->>>>>>> main
-=======
->>>>>>> 0c8d324b0761d17bbd97d12eb2b8807a24f23793
