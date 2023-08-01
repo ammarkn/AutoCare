@@ -87,6 +87,9 @@ app.get('/review', (req, res) => {
 
 
 // Function by Yara
+// this function takes user input and checks if a user exists.
+// If a user exists, an error occurs and user is prompted to log in.
+// If a user does not exist, the user is added to the database and their account is created successfully.
 app.post('/api/register', async (req, res) => {
   const { FirstName, LastName, Email, Password } = req.body;
 
@@ -94,25 +97,39 @@ app.post('/api/register', async (req, res) => {
 
   try {
 
-    const hashedPass = await bcrypt.hash(Password, 10);
-
-    const sql = 'INSERT INTO Users (UserID, FirstName, LastName, Email, Password) VALUES (?, ?, ?, ?, ?)';
-    
-    conn.query(sql, [UserID, FirstName, LastName, Email, hashedPass], (err, result) => {
-      
-      if (err) {
-        console.error('An error occurred when inserting user details:', err);
-        res.status(500).json({ error: 'An error occurred during registration.' });
-      } else {
-        res.status(200).json({ message: 'Registration successful.' });
+    const checkIfUserExists = 'SELECT * FROM Users WHERE Email = ?';
+    conn.query(checkIfUserExists, [Email], async(checkError, checkResult) => {
+      if (checkError) {
+        console.error('An error occurred when verifying that user does not exist:', checkError);
+        return res.status(500).json({ error: 'An error occurred during registration.' });
       }
 
+      if (checkResult.length > 0) {
+        return res.status(409).json({ error: 'User with this email already exists. Please log in.' });
+      }
+
+      const hashedPass = await bcrypt.hash(Password, 10);
+
+      const sql = 'INSERT INTO Users (UserID, FirstName, LastName, Email, Password) VALUES (?, ?, ?, ?, ?)';
+    
+      conn.query(sql, [UserID, FirstName, LastName, Email, hashedPass], (err, result) => {
+      
+        if (err) {
+          console.error('An error occurred when inserting user details:', err);
+          res.status(500).json({ error: 'An error occurred during registration.' });
+        } else {
+          res.status(200).json({ message: 'Registration successful.' });
+        }
+      });
     });
 
   } catch (error) {
     console.error('Registration error:', error);
-    res.status(500).json({ error: 'An error occurred during registration.' });
+    return res.status(500).json({ error: 'An error occurred during registration.' });
   }
+});
+
+
 
 app.post('/addReview', (req, res) => {
   console.log(req.body);
