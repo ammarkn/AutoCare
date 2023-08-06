@@ -12,7 +12,7 @@ const VendorInformation = () => {
     useEffect(() => {
         const fetchVendorDetails = async () => {
             try {
-                const response = await axios.get(`vendors/${id}`);
+                const response = await axios.get(`/vendors/${id}`);
                 setVendorDetails(response.data);
             } catch (error) {
                 console.error("Error fetching vendor details:", error);
