@@ -34,7 +34,7 @@ const NavBar = () => {
           <a href="/"><li>Home</li></a>
           <a href="/vendors"><li>Vendors</li></a>
           <a href="/review"><li>Reviews</li></a>
-          <a href="/blog"><li>Blog</li></a>
+          <a href="/blogs"><li>Blogs</li></a>
           <a href="/faq"><li>FAQ</li></a>
           <a href="/contact"><li>Contact Us</li></a>
           {isLoggedIn && <a href="/profile"><li>Profile</li></a>}
