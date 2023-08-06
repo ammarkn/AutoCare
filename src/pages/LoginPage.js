@@ -1,6 +1,8 @@
 // Yara Ahmed (B00830192) is the author of this page
 
 import React, { useState} from "react";
+import axios from 'axios';
+import {useNavigate} from "react-router-dom";
 import "./css/RegistrationPage.css";
 import logInImage from "./images/login-image.png";
 
@@ -9,9 +11,27 @@ const LoginPage = () => {
     const [password, setPassword] = useState('');
     const [formErrors, setFormErrors] = useState({});
 
-    const handleSubmit = (e) => {
+    const navigate = useNavigate();
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        setFormErrors(validate(email, password));
+        const errors = validate(email, password);
+
+        if(Object.keys(errors).length === 0) {
+            try {
+                const response = await axios.post('https://csci-4177-grp-21.onrender.com/login', {
+                    email: email,
+                    password: password,
+                });
+                localStorage.setItem('userID', response.data.userID);
+                navigate('/profile');
+            } catch(error) {
+                console.error('Login error: ', error);
+            }
+        }
+        else {
+            setFormErrors(errors);
+        }
     }
     
     const validate = (email, password) => {

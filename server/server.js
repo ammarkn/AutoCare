@@ -34,7 +34,7 @@ app.listen(port, () => {
 
 app.get('/user', (req, res) => {
   const userID = req.query.id;
-  const sql = 'SELECT FirstName, LastName, Email, Password, DateJoined FROM Users WHERE UserID = ?';
+  const sql = 'SELECT FirstName, LastName, Email, Password, Address, DateJoined FROM Users WHERE UserID = ?';
   conn.query(sql, [userID], (err, result) => {
       if(err) { 
         throw err;
@@ -43,16 +43,17 @@ app.get('/user', (req, res) => {
         res.status(404).send('User not found');
       }
       else {
-        res.json({firstName: result[0].FirstName, lastName: result[0].LastName, email: result[0].Email, dateJoined: result[0].DateJoined, password: result[0].Password});
+        res.json({firstName: result[0].FirstName, lastName: result[0].LastName, email: result[0].Email, address: result[0].Address, dateJoined: result[0].DateJoined, password: result[0].Password});
       }
     })
 });
 
 app.post('/userUpdate', (req, res) => {
   const userID = req.query.id;
-  const sql = 'UPDATE Users SET FirstName = ?, LastName = ?, Email = ?, Password = ? WHERE UserID = ?';
-  const {firstName, lastName, email, password} = req.body;
-  conn.query(sql, [firstName, lastName, email, password, userID], (err) => {
+  const sql = 'UPDATE Users SET FirstName = ?, LastName = ?, Email = ?, Address = ? WHERE UserID = ?';
+  const {firstName, lastName, email, address} = req.body;
+
+  conn.query(sql, [firstName, lastName, email, address, userID], (err) => {
     if(err) {
       throw err;
     }
@@ -146,6 +147,32 @@ app.get('/vendors/:id', (req, res) => {
   });
 });
 
+// Function by Ammar
+app.post('/login', (req, res) => {
+  const {email, password} = req.body;
+  const sql = 'SELECT * FROM Users WHERE Email = ?';
+  conn.query(sql, [email], async (err, result) => {
+    if(err) {
+      throw err;
+    }
+    else if(result.length === 0) {
+      res.status(404).send('User not found');
+    }
+    else {
+      const user = result[0];
+      const hashedPass = user.Password;
+      const verify = await bcrypt.compare(password, hashedPass);
+
+      if(verify) {
+        res.json({userID: user.UserID});
+      }
+      else {
+        res.status(403).send('Invalid credentials.')
+      }
+    }
+  })
+})
+
 
 // Function by Yara
 app.post('/api/register', async (req, res) => {
@@ -174,7 +201,7 @@ app.post('/api/register', async (req, res) => {
     console.error('Registration error:', error);
     res.status(500).json({ error: 'An error occurred during registration.' });
   }
-}); // <-- Added the closing curly brace here
+});
 
 app.post('/addReview', (req, res) => {
   console.log(req.body);
@@ -189,4 +216,3 @@ app.post('/addReview', (req, res) => {
     }
   })
 });
-
