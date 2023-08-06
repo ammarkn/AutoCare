@@ -178,11 +178,11 @@ app.post('/api/register', async (req, res) => {
       
       if (checkError) {
         console.error('An error occurred when verifying that user does not exist:', checkError);
-        return res.status(500).json({ error: 'An error occurred during registration.' });
+        return res.status(500).json({ error: 'An error occurred when verifying that user does not exist.' });
       }
 
       if (checkResult.length > 0) {
-        return res.status(409).json({ error: 'User with this email already exists. Please log in.' });
+        return res.status(409).send({ error: 'User with this email already exists. Please log in.' });
       }
 
       const hashedPass = await bcrypt.hash(Password, 10);
@@ -193,9 +193,9 @@ app.post('/api/register', async (req, res) => {
       
         if (err) {
           console.error('An error occurred when inserting user details:', err);
-          res.status(500).json({ error: 'An error occurred during registration.' });
+          return res.status(500).json({ error: 'An error occurred when creating an account.' });
         } else {
-          res.status(200).json({ message: 'Registration successful.' });
+          return res.status(200).json({ message: 'Registration successful.' });
         }
       });
 
@@ -203,7 +203,7 @@ app.post('/api/register', async (req, res) => {
 
   } catch (error) {
     console.error('Registration error:', error);
-    return res.status(500).json({ error: 'An error occurred during registration.' });
+    return res.status(500).json({ error: 'An unexpected error occurred during registration.' });
   }
 });
 

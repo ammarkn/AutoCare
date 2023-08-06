@@ -1,6 +1,6 @@
 // Yara Ahmed (B00830192) is the author of this page
 
-import React, { useState} from "react";
+import React, { useState, useEffect} from "react";
 import "./css/RegistrationPage.css";
 import signUpImage from "./images/signup-image.png";
 
@@ -19,6 +19,12 @@ const RegistrationPage = () => {
         setIsSubmit(true);
     }
 
+    useEffect(() => {
+        if (Object.keys(formErrors).length === 0 && isSubmit) {
+            registerUser();
+        }
+    }, [formErrors, isSubmit]);
+
     const registerUser = async () => {
         try {
           const response = await fetch('https://csci-4177-grp-21.onrender.com/api/register', {
@@ -33,21 +39,25 @@ const RegistrationPage = () => {
               Password: password,
             }),
           });
+
+          console.log('Response status:', response.status);
     
           if (response.ok) {
             alert('Registration Successful');
           } else {
-            alert('There was an error with your registration. Please try again later.');
+            const status = response.status;
+            if (status === 409) {
+                alert('User with this email already exists. Please log in.');
+            } else {
+                alert('There was an error with your registration. Please try again later.');
+            }
           }
         } catch (error) {
           console.error('Registration error:', error);
           alert('Registration error. Please try again later.');
         }
+        
     };
-
-    if (Object.keys(formErrors).length === 0 && isSubmit) {
-        registerUser();
-    }
         
     
     const validate = (fName, lName, email, password) => {
@@ -88,7 +98,7 @@ const RegistrationPage = () => {
                         <div class="signup-content">
                             <div class="signup-form">
                                 <h2 class="form-title">Sign up</h2>
-                                <form onSubmit={handleSubmit} method="POST" class="register-form" id="register-form">
+                                <form onSubmit={handleSubmit} class="register-form" id="register-form">
                                     
                                     <div class="form-group">
                                         <label for="firstName"><i class="zmdi zmdi-account material-icons-name"></i></label>
@@ -113,7 +123,7 @@ const RegistrationPage = () => {
 
                                     <div class="form-group">
                                         <label for="pass"><i class="zmdi zmdi-lock"></i></label>
-                                        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} name="pass" id="pass" placeholder="Password" />
+                                        <input type="password" onChange={(e) => setPassword(e.target.value)} name="pass" id="pass" placeholder="Password" />
                                         {formErrors.password && <span className="error">{formErrors.password}</span>}
                                     </div>
 
