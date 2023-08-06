@@ -17,17 +17,18 @@ const RegistrationPage = () => {
         e.preventDefault();
         setFormErrors(validate(fName, lName, email, password));
         setIsSubmit(true);
+        registerUser();
     }
 
     useEffect(() => {
         if (Object.keys(formErrors).length === 0 && isSubmit) {
-            registerUser();
+            console.log("Registration attempt in progress.");
         }
     }, [formErrors, isSubmit]);
 
     const registerUser = async () => {
         try {
-          const response = await fetch('https://csci-4177-grp-21.onrender.com/api/register', {
+          const response = await fetch('http://localhost:5022/api/register', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
