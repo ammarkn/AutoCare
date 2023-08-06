@@ -86,6 +86,20 @@ app.get('/review', (req, res) => {
     });
 });
 
+app.post('/addReview', (req, res) => {
+  console.log(req.body);
+  const sql = 'INSERT INTO vendors_review (vendor_id, rating, heading, description) VALUES (?, ?, ?, ?)';
+  const { vendor_id, rating, heading, description } = req.body;
+  conn.query(sql, [vendor_id, rating, heading, description], (err) => {
+    if(err) {
+      throw err;
+    }
+    else {
+      res.send('review added');
+    }
+  })
+});
+
 app.get('/vendors', (req, res) => {
   const sql = 'SELECT * FROM vendors';
   conn.query(sql, (err, result) => {
@@ -175,47 +189,49 @@ app.post('/login', (req, res) => {
 
 
 // Function by Yara
-app.post('/api/register', async (req, res) => {
+// this function takes user input and checks if a user exists.
+// If a user exists, an error occurs and user is prompted to log in.
+// If a user does not exist, the user is added to the database and their account is created successfully.
+app.post('https://csci-4177-grp-21.onrender.com/api/register', async (req, res) => {
   const { FirstName, LastName, Email, Password } = req.body;
 
   const UserID = uuid.v4(); 
 
   try {
 
-    const hashedPass = await bcrypt.hash(Password, 10);
+    const checkIfUserExists = 'SELECT * FROM Users WHERE Email = ?';
 
-    const sql = 'INSERT INTO Users (UserID, FirstName, LastName, Email, Password) VALUES (?, ?, ?, ?, ?)';
-    
-    conn.query(sql, [UserID, FirstName, LastName, Email, hashedPass], (err, result) => {
+    conn.query(checkIfUserExists, [Email], async(checkError, checkResult) => {
       
-      if (err) {
-        console.error('An error occurred when inserting user details:', err);
-        res.status(500).json({ error: 'An error occurred during registration.' });
-      } else {
-        res.status(200).json({ message: 'Registration successful.' });
+      if (checkError) {
+        console.error('An error occurred when verifying that user does not exist:', checkError);
+        return res.status(500).json({ error: 'An error occurred when verifying that user does not exist.' });
       }
+
+      if (checkResult.length > 0) {
+        return res.status(409).send({ error: 'User with this email already exists. Please log in.' });
+      }
+
+      const hashedPass = await bcrypt.hash(Password, 10);
+
+      const addUser = 'INSERT INTO Users (UserID, FirstName, LastName, Email, Password) VALUES (?, ?, ?, ?, ?)';
+    
+      conn.query(addUser, [UserID, FirstName, LastName, Email, hashedPass], (err, result) => {
+      
+        if (err) {
+          console.error('An error occurred when inserting user details:', err);
+          return res.status(500).json({ error: 'An error occurred when creating an account.' });
+        } else {
+          return res.status(200).json({ message: 'Registration successful.' });
+        }
+      });
 
     });
 
   } catch (error) {
     console.error('Registration error:', error);
-    res.status(500).json({ error: 'An error occurred during registration.' });
+    return res.status(500).json({ error: 'An unexpected error occurred during registration.' });
   }
-});
-
-app.post('/addReview', (req, res) => {
-  console.log(req.body);
-  const sql = 'INSERT INTO vendors_review (vendor_id, rating, heading, description) VALUES (?, ?, ?, ?)';
-  const { vendor_id, rating, heading, description } = req.body;
-  conn.query(sql, [vendor_id, rating, heading, description], (err) => {
-    if(err) {
-      throw err;
-    }
-    else {
-      res.send('review added');
-    }
-  })
-});
 
 
 /**
