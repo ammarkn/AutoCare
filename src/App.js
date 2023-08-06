@@ -10,6 +10,7 @@ import Profile from "./components/Profile";
 import VendorReview from "./pages/VendorReview";
 import RegistrationPage from "./pages/RegistrationPage";
 import LoginPage from "./pages/LoginPage";
+import Blogs from "./pages/Blogs";
 
 function App() {
   return (
@@ -33,6 +34,9 @@ function App() {
           <Route path="/register" element={<RegistrationPage/>} />
 
           <Route path="/login" element={<LoginPage/>} />
+
+          <Route path="/blogs" element={<Blogs/>} />
+
 
         </Routes>
       </Router>
