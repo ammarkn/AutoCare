@@ -24,8 +24,7 @@ function Profile() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        // axios.get(`https://csci-4177-grp-21.onrender.com/user?id=${userId}`)
-        axios.get(`http://localhost:5022/user?id=${userId}`)
+        axios.get(`https://csci-4177-grp-21.onrender.com/user?id=${userId}`)
             .then((response) => {
                 setFirstName(response.data.firstName);
                 setLastName(response.data.lastName);

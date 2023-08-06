@@ -19,7 +19,7 @@ const LoginPage = () => {
 
         if(Object.keys(errors).length === 0) {
             try {
-                const response = await axios.post('http://localhost:5022/login', {
+                const response = await axios.post('https://csci-4177-grp-21.onrender.com/login', {
                     email: email,
                     password: password,
                 });
