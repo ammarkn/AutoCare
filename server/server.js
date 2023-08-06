@@ -50,9 +50,10 @@ app.get('/user', (req, res) => {
 
 app.post('/userUpdate', (req, res) => {
   const userID = req.query.id;
-  const sql = 'UPDATE Users SET FirstName = ?, LastName = ?, Email = ?, Password = ?, Address = ? WHERE UserID = ?';
-  const {firstName, lastName, email, password, address} = req.body;
-  conn.query(sql, [firstName, lastName, email, password, address, userID], (err) => {
+  const sql = 'UPDATE Users SET FirstName = ?, LastName = ?, Email = ?, Address = ? WHERE UserID = ?';
+  const {firstName, lastName, email, address} = req.body;
+
+  conn.query(sql, [firstName, lastName, email, address, userID], (err) => {
     if(err) {
       throw err;
     }
@@ -160,6 +161,32 @@ app.get('/vendors/:id', (req, res) => {
   });
 });
 
+// Function by Ammar
+app.post('/login', (req, res) => {
+  const {email, password} = req.body;
+  const sql = 'SELECT * FROM Users WHERE Email = ?';
+  conn.query(sql, [email], async (err, result) => {
+    if(err) {
+      throw err;
+    }
+    else if(result.length === 0) {
+      res.status(404).send('User not found');
+    }
+    else {
+      const user = result[0];
+      const hashedPass = user.Password;
+      const verify = await bcrypt.compare(password, hashedPass);
+
+      if(verify) {
+        res.json({userID: user.UserID});
+      }
+      else {
+        res.status(403).send('Invalid credentials.')
+      }
+    }
+  })
+})
+
 
 // Function by Yara
 // this function takes user input and checks if a user exists.
@@ -205,5 +232,40 @@ app.post('https://csci-4177-grp-21.onrender.com/api/register', async (req, res) 
     console.error('Registration error:', error);
     return res.status(500).json({ error: 'An unexpected error occurred during registration.' });
   }
+
+
+/**
+ * Created By: Raunak Singh
+ * API Endpoints for 'blogs' table
+ */
+
+app.get("/blogs", (req, res) => {
+  const sql = "SELECT * FROM blogs";
+  conn.query(sql, (err, result) => {
+    if (err) {
+      console.error("Error fetching blogs:", err);
+      res.status(500).send("Error fetching blogs");
+    } else {
+      const blogs = result.map((item) => ({
+        user_id: item.user_id,
+        title: item.title,
+        content: item.content,
+        date_posted: item.date_posted,
+      }));
+      res.json(blogs);
+    }
+  });
 });
 
+app.post("/addBlog", (req, res) => {
+  const sql =
+    "INSERT INTO blogs (user_id, title, content, date_posted) VALUES (?, ?, ?, ?)";
+  const { user_id, title, content, date_posted } = req.body;
+  conn.query(sql, [user_id, title, content, date_posted], (err) => {
+    if (err) {
+      throw err;
+    } else {
+      res.send("blog added");
+    }
+  });
+});

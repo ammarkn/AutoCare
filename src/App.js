@@ -10,14 +10,16 @@ import Profile from "./components/Profile";
 import VendorReview from "./pages/VendorReview";
 import RegistrationPage from "./pages/RegistrationPage";
 import LoginPage from "./pages/LoginPage";
+import Blogs from "./pages/Blogs";
 
 function App() {
   return (
     <div className="App">
-      <header>
-        <NavBar></NavBar>
-      </header>
       <Router>
+        <header>
+          <NavBar></NavBar>
+        </header>
+      {/* <Router> */}
         <Routes>
           <Route path="/faq" element={<FAQ />} />
           <Route path="/vendors" element={<Vendors />} />
@@ -32,6 +34,9 @@ function App() {
           <Route path="/register" element={<RegistrationPage/>} />
 
           <Route path="/login" element={<LoginPage/>} />
+
+          <Route path="/blogs" element={<Blogs/>} />
+
 
         </Routes>
       </Router>
