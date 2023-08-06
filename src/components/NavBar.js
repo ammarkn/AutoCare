@@ -23,6 +23,7 @@ export default class NavBar extends React.Component {
             <a href="/register"><li>Register</li></a>
             <a href="/login"><li>Login</li></a>
             <a href="/vendors"><li>Vendors</li></a>
+            <a href="/blogs"><li>Blogs</li></a>
           </ul>
         </div>
       </nav>
