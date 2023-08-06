@@ -28,7 +28,7 @@ const RegistrationPage = () => {
 
     const registerUser = async () => {
         try {
-          const response = await fetch('http://localhost:5022/api/register', {
+          const response = await fetch('https://csci-4177-grp-21.onrender.com/api/register', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
