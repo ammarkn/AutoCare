@@ -14,10 +14,11 @@ import LoginPage from "./pages/LoginPage";
 function App() {
   return (
     <div className="App">
-      <header>
-        <NavBar></NavBar>
-      </header>
       <Router>
+        <header>
+          <NavBar></NavBar>
+        </header>
+      {/* <Router> */}
         <Routes>
           <Route path="/faq" element={<FAQ />} />
           <Route path="/vendors" element={<Vendors />} />
