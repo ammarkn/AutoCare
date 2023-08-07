@@ -17,7 +17,7 @@ function AllBlogs() {
         setBlogs(response.data);
       })
       .catch((error) => {
-        console.error("Error getting blogs:", error);
+        console.error("Error getting blogs from the database: ", error);
       });
   }, []);
 
@@ -33,7 +33,7 @@ function AllBlogs() {
           }));
         })
         .catch((error) => {
-          console.error(`Error getting user details`, error);
+          console.error(`Error getting user details `, error);
         });
     });
   }, [blogs]);

@@ -40,12 +40,12 @@ function WriteBlog() {
       .post("https://csci-4177-grp-21.onrender.com/addBlog", newBlog)
       .then((response) => {
         console.log(response.data);
-        alert("blog Added Successfully!");
+        alert("Maintenance Blog Submitted Successfully!");
         navigate("/blogs");
       })
       .catch((error) => {
         console.error(error);
-        alert("There was some error, Please try again.");
+        alert("An Error Occurred, Please try again.");
       });
   };
 
