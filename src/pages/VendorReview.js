@@ -2,7 +2,7 @@
  * Created & Developed by Raunak Singh, B00831843
  */
 
-import carWashImage1 from "./images/carwash1-unsplash.jpeg";
+import carWashImage1 from "./images/carwash8-unsplash.avif";
 import "./css/VendorReview.css";
 import Rating from "@mui/material/Rating";
 import React, { useState, useEffect } from "react";
