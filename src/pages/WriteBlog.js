@@ -1,9 +1,15 @@
+/**
+ * Created & Developed by Raunak Singh, B00831843
+ */
+
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import "./css/WriteBlog.css";
 
 function WriteBlog() {
   const userId = localStorage.getItem("userID");
+  const currentUserName = localStorage.getItem("loggedUserFullName") ?? "";
 
   const navigate = useNavigate();
 
@@ -16,18 +22,18 @@ function WriteBlog() {
     return currentDateISOString;
   };
 
+  const handleBackButton = (event) => {
+    navigate("/blogs");
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("title:", blogTitle);
-    console.log("Content:", blogContent);
-
-    console.log('hello')
 
     const newBlog = {
       user_id: userId,
       title: blogTitle,
       content: blogContent,
-      date_posted: getCurrentDate()
+      date_posted: getCurrentDate(),
     };
 
     await axios
@@ -35,7 +41,7 @@ function WriteBlog() {
       .then((response) => {
         console.log(response.data);
         alert("blog Added Successfully!");
-        navigate('/blogs')
+        navigate("/blogs");
       })
       .catch((error) => {
         console.error(error);
@@ -53,12 +59,17 @@ function WriteBlog() {
 
   return (
     <div className="main-write-blogs-page">
+      <div className="write-blog-back-button" onClick={handleBackButton}>
+        &lt; <u>Back to Blogs</u>
+      </div>
       <form onSubmit={handleSubmit}>
-        <h5 style={{ fontSize: "18px" }}>Write a Maintenance Blog</h5>
+        <div className="main-write-blogs-page-heading">
+          Write a Maintenance Blog
+        </div>
 
         <br></br>
 
-        <h5>TITLE</h5>
+        <h5>Blog Title</h5>
         <input
           type="text"
           placeholder="Add Blog Title"
@@ -66,7 +77,7 @@ function WriteBlog() {
           onChange={handleTitleChange}
         />
 
-        <h5>CONTENT {getCurrentDate()}</h5>
+        <h5>Blog Content</h5>
         <textarea
           placeholder="Add Blog Content"
           value={blogContent}
@@ -75,7 +86,11 @@ function WriteBlog() {
 
         <br></br>
 
-        <button type="submit">Post Maintenance Blog</button>
+        <div className="post-blog-fullname">
+          Submitting as ~ <b>{currentUserName}</b>
+        </div>
+
+        <button type="submit">Submit Blog</button>
       </form>
     </div>
   );

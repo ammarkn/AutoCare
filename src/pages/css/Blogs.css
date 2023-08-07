@@ -2,6 +2,10 @@
  * Created & Developed by Raunak Singh, B00831843
  */
 
+body {
+    background-color: #F2F2F2;
+}
+
 .main-blogs-page {
     width: 85vw;
     margin: auto;
