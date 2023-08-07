@@ -26,7 +26,7 @@ function WriteBlog() {
     const newBlog = {
       user_id: userId,
       title: blogTitle,
-      description: blogContent,
+      content: blogContent,
       date_posted: getCurrentDate()
     };
 
