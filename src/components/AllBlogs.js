@@ -4,6 +4,7 @@
 
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import "./AllBlogs.css";
 
 function AllBlogs() {
   const [blogs, setBlogs] = useState([]);
@@ -50,15 +51,16 @@ function AllBlogs() {
 
   return (
     <div className="all-blogs-comp">
-      <div className="all-blogs-form-heading">Maintenance Blogs</div>
+      <div className="all-blogs-form-heading">All Maintenance Blogs</div>
 
-      <div className="main-blogs-container">
+      <div className="all-blogs-container">
         {blogs.map((blog, index) => (
           <div key={index} className="main-blogs-comp">
             <h3>{blog.title}</h3>
+            <div className="blog-comp-post-date">{formatDate(blog.date_posted)}</div>
+            <div className="blog-comp-by-name">by {users[blog.user_id]}</div>
             <p>{blog.content}</p>
-            <div>{formatDate(blog.date_posted)}</div>
-            <div>Posted by: {users[blog.user_id]}</div>
+            
           </div>
         ))}
       </div>

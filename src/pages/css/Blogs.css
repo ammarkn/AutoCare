@@ -7,6 +7,7 @@
     margin: auto;
     display: flex;
     flex-direction: column;
+    padding-bottom: 6rem;
 }
 
 .main-blogs-page button {
