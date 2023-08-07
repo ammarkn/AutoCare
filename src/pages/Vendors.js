@@ -8,6 +8,8 @@ import blackCar from "./images/carwash5-unsplash.jpg";
 import orangeCar from "./images/carwash4-unsplash.jpg";
 import redCar from "./images/carwash6-unsplash.jpg";
 import backSideCar from "./images/carwash3-unsplash.jpg";
+import orangeSupra from "./images/orangeSupra.png";
+import blackPorsche from "./images/carwash7-unsplash.jpg";
 
 const Vendor = () => {
   const [vendors, setVendors] = useState([]);
@@ -27,7 +29,8 @@ const Vendor = () => {
       blackCar,
       orangeCar,
       redCar,
-      backSideCar,
+      orangeSupra,
+      blackPorsche,
     ];
     return carImages[Math.floor(Math.random() * carImages.length)];
   };

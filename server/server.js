@@ -97,22 +97,6 @@ app.get('/vendors', (req, res) => {
   });
 });
 
-// app.get('/vendors/:id', (req, res) => {
-//   const vendorId = req.params.id;
-//   const sql = 'SELECT * FROM vendors WHERE vendor_id = ?';
-//   conn.query(sql, [vendorId], (err, result) => {
-//     if (err) {
-//       console.error("Error fetching vendor details:", err);
-//       res.status(500).send("Error fetching vendor details");
-//     } else {
-//       if (result.length === 0) {
-//         res.status(404).send("Vendor not found");
-//       } else {
-//         res.json(result[0]);
-//       }
-//     }
-//   });
-// });
 app.get('/vendors/:id', (req, res) => {
   const vendorId = req.params.id;
   const sql = 'SELECT * FROM vendors WHERE vendor_id = ?';
@@ -129,7 +113,6 @@ app.get('/vendors/:id', (req, res) => {
     }
   });
 });
-
 
 // Function by Yara
 app.post('/api/register', async (req, res) => {
@@ -158,7 +141,7 @@ app.post('/api/register', async (req, res) => {
     console.error('Registration error:', error);
     res.status(500).json({ error: 'An error occurred during registration.' });
   }
-}); // <-- Added the closing curly brace here
+}); 
 
 app.post('/addReview', (req, res) => {
   console.log(req.body);
