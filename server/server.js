@@ -192,7 +192,7 @@ app.post('/login', (req, res) => {
 // this function takes user input and checks if a user exists.
 // If a user exists, an error occurs and user is prompted to log in.
 // If a user does not exist, the user is added to the database and their account is created successfully.
-app.post('https://csci-4177-grp-21.onrender.com/api/register', async (req, res) => {
+app.post('/api/register', async (req, res) => {
   const { FirstName, LastName, Email, Password } = req.body;
 
   const UserID = uuid.v4(); 
