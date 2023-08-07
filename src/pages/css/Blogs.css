@@ -23,7 +23,7 @@ body {
     font-size: 1rem;
     color: white;
     border: none;
-    border-radius: 10px;
+    border-radius: 20px;
     cursor: pointer;
     width: 15rem;
     transition: all 0.3s;
