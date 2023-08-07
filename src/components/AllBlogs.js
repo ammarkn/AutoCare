@@ -39,6 +39,7 @@ function AllBlogs() {
   }, [blogs]);
 
   const formatDate = (dateString) => {
+    // Reference for `toLocaleDateString`, URL: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleDateString
     const options = {
       weekday: "long",
       year: "numeric",
