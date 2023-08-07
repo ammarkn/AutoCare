@@ -232,6 +232,7 @@ app.post('https://csci-4177-grp-21.onrender.com/api/register', async (req, res) 
     console.error('Registration error:', error);
     return res.status(500).json({ error: 'An unexpected error occurred during registration.' });
   }
+});
 
 
 /**
