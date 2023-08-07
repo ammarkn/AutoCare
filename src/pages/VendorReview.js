@@ -33,7 +33,7 @@ function VendorReview() {
       .catch((error) => {
         console.error("Error getting reviews:", error);
       });
-  }, []);
+  }, [vendorId]);
 
   const handleHeadingChange = (event) => {
     setReviewHeading(event.target.value);
