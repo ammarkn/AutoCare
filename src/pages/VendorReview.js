@@ -25,6 +25,7 @@ function VendorReview() {
   };
 
   const handleSubmit = (event) => {
+    event.preventDefault();
     console.log("Heading:", reviewHeading);
     console.log("Description:", reviewDescription);
     console.log("Rating:", ratingValue);
@@ -40,6 +41,7 @@ function VendorReview() {
       .then((response) => {
         console.log(response.data);
         alert("Review Added Successfully!");
+        window.location.reload();
       })
       .catch((error) => {
         console.error(error);
