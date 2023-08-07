@@ -49,9 +49,11 @@ function VendorReview() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log("Heading:", reviewHeading);
-    console.log("Description:", reviewDescription);
-    console.log("Rating:", ratingValue);
+
+    if (!reviewHeading || !reviewDescription) {
+      alert("Please enter both Review Heading and Review Description.");
+      return;
+    }
 
     const newReview = {
       vendor_id: vendorId,

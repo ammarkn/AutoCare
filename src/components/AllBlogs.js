@@ -45,6 +45,7 @@ function AllBlogs() {
       year: "numeric",
       month: "long",
       day: "numeric",
+      timeZone: "UTC",
     };
     const date = new Date(dateString);
     return date.toLocaleDateString(undefined, options);
@@ -61,7 +62,7 @@ function AllBlogs() {
             <div className="blog-comp-post-date">{formatDate(blog.date_posted)}</div>
             <div className="blog-comp-by-name">by {users[blog.user_id]}</div>
             <p>{blog.content}</p>
-            
+
           </div>
         ))}
       </div>
