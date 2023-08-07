@@ -29,6 +29,11 @@ function WriteBlog() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    if (!blogTitle || !blogContent) {
+      alert("Please enter both Blog Title and Blog Content before submitting.");
+      return;
+    }
+
     const newBlog = {
       user_id: userId,
       title: blogTitle,

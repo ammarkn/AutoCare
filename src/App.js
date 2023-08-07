@@ -12,6 +12,7 @@ import RegistrationPage from "./pages/RegistrationPage";
 import LoginPage from "./pages/LoginPage";
 import Blogs from "./pages/Blogs";
 import WriteBlog from "./pages/WriteBlog";
+import Reviews from "./pages/Reviews";
 
 function App() {
   return (
@@ -28,7 +29,9 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/contact" element={<ContactPage />} />
 
-          <Route path="/review" element={<VendorReview />} />
+          <Route path="/review" element={<Reviews />} />
+
+          <Route path="/reviewVendor" element={<VendorReview />} />
 
           <Route path="/" element={<HomePage />} />
 

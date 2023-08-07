@@ -2,19 +2,38 @@
  * Created & Developed by Raunak Singh, B00831843
  */
 
-import carWashImage1 from "./images/carwash1-unsplash.jpeg";
+import carWashImage1 from "./images/carwash8-unsplash.avif";
 import "./css/VendorReview.css";
 import Rating from "@mui/material/Rating";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import AllVendorReview from "../components/AllVendorReview";
+import { useNavigate } from "react-router-dom";
 
 function VendorReview() {
   const [ratingValue, setRatingValue] = useState(3);
   const [reviewHeading, setReviewHeading] = useState("");
   const [reviewDescription, setReviewDescription] = useState("");
-  // TODO: get current vendor id, once the vendor page is implemented
-  const vendorId = 1;
+
+  const [vendorName, setVendorName] = useState("");
+  const [vendorAddress, setVendorAddress] = useState("");
+
+  const vendorId = localStorage.getItem("selectedVendorId") ?? "";
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    axios
+      .get(`https://csci-4177-grp-21.onrender.com/vendors/${vendorId}`)
+      .then((response) => {
+        console.log(response.data);
+        setVendorName(response.data.vendor_name);
+        setVendorAddress(response.data.location);
+      })
+      .catch((error) => {
+        console.error("Error getting reviews:", error);
+      });
+  }, [vendorId]);
 
   const handleHeadingChange = (event) => {
     setReviewHeading(event.target.value);
@@ -24,11 +43,17 @@ function VendorReview() {
     setReviewDescription(event.target.value);
   };
 
+  const handleBackButton = (event) => {
+    navigate("/review");
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log("Heading:", reviewHeading);
-    console.log("Description:", reviewDescription);
-    console.log("Rating:", ratingValue);
+
+    if (!reviewHeading || !reviewDescription) {
+      alert("Please enter both Review Heading and Review Description.");
+      return;
+    }
 
     const newReview = {
       vendor_id: vendorId,
@@ -51,14 +76,13 @@ function VendorReview() {
 
   return (
     <div className="vendor-review-page">
+      <div className="review-vendor-back-button" onClick={handleBackButton}>
+        &lt; <u>Back to Vendor Reviews</u>
+      </div>
       <div className="vendor-review-grid">
         <div className="vendor-review-page-form">
-          <div className="vendor-review-page-form-heading">
-            Shimmer 'n' Shine Auto Spa
-          </div>
-          <h5 style={{ fontSize: "18px" }}>
-            123 Main Street Halifax, NS B3H 1A1 Canada
-          </h5>
+          <div className="vendor-review-page-form-heading">{vendorName}</div>
+          <h5 style={{ fontSize: "18px" }}>{vendorAddress}</h5>
 
           <hr className="vendor-review-line"></hr>
 
