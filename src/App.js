@@ -37,7 +37,7 @@ function App() {
           <Route path="/login" element={<LoginPage/>} />
 
           <Route path="/blogs" element={<Blogs/>} />
-
+            
           <Route path="/writeBlog" element={<WriteBlog/>} />
 
         </Routes>
