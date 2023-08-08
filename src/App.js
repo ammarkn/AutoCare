@@ -12,6 +12,8 @@ import RegistrationPage from "./pages/RegistrationPage";
 import LoginPage from "./pages/LoginPage";
 import Blogs from "./pages/Blogs";
 import PurchaseOrder from "./pages/PurchaseOrder";
+import WriteBlog from "./pages/WriteBlog";
+import Reviews from "./pages/Reviews";
 
 function App() {
   return (
@@ -29,7 +31,9 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/contact" element={<ContactPage />} />
 
-          <Route path="/review" element={<VendorReview />} />
+          <Route path="/review" element={<Reviews />} />
+
+          <Route path="/reviewVendor" element={<VendorReview />} />
 
           <Route path="/" element={<HomePage />} />
 
@@ -38,7 +42,8 @@ function App() {
           <Route path="/login" element={<LoginPage/>} />
 
           <Route path="/blogs" element={<Blogs/>} />
-
+            
+          <Route path="/writeBlog" element={<WriteBlog/>} />
 
         </Routes>
       </Router>

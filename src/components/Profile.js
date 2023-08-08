@@ -35,6 +35,7 @@ function Profile() {
                 setEditLastName(response.data.lastName);
                 setEditEmail(response.data.email);
                 setEditAddress(response.data.address);
+                localStorage.setItem('loggedUserFullName', `${response.data.firstName} ${response.data.lastName}`)
             })
             .catch((error) => {
                 console.log(`Error: ${error}`);
