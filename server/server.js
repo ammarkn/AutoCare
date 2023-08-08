@@ -100,6 +100,7 @@ app.post('/addReview', (req, res) => {
   })
 });
 
+//Function by Sameer 
 app.get('/vendors', (req, res) => {
   const sql = 'SELECT * FROM vendors';
   conn.query(sql, (err, result) => {
@@ -112,6 +113,7 @@ app.get('/vendors', (req, res) => {
   });
 });
 
+// Function by Sameer
 app.get('/vendors/:id', (req, res) => {
   const vendorId = req.params.id;
   const sql = 'SELECT * FROM vendors WHERE vendor_id = ?';
@@ -126,6 +128,34 @@ app.get('/vendors/:id', (req, res) => {
         res.json(result[0]);
       }
     }
+  });
+});
+
+// Function by Sameer
+app.post('/addOrder', (req, res) => {
+  let { vendor_id, package } = req.body;
+  const query = `INSERT INTO orders(vendor_id, package) VALUES(${mysql.escape(vendor_id)}, ${mysql.escape(package)})`;
+
+  conn.query(query, (err, result) => {
+    if (err) {
+      console.error('Error inserting data:', err);
+      res.status(500).json({ message: 'Error inserting data' });
+    } else {
+      res.status(200).json({ message: 'Order placed successfully' });
+    }
+  });
+});
+
+// Function by Sameer
+app.get('/getOrders/:id', (req, res) => {
+  const vendorId = req.params.id;
+  const sql = 'SELECT * FROM orders WHERE vendor_id = ?';
+  conn.query(sql, [vendorId], (err, result) => {
+      if(err) {
+          res.status(500).send("Error fetching orders");
+      } else {
+          res.json(result);
+      }
   });
 });
 

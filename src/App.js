@@ -11,6 +11,7 @@ import VendorReview from "./pages/VendorReview";
 import RegistrationPage from "./pages/RegistrationPage";
 import LoginPage from "./pages/LoginPage";
 import Blogs from "./pages/Blogs";
+import PurchaseOrder from "./pages/PurchaseOrder";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/faq" element={<FAQ />} />
           <Route path="/vendors" element={<Vendors />} />
           <Route path="/vendors/:id" element={<VendorInformation />} />
+          <Route path="/purchase-order/:id" element={<PurchaseOrder />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/contact" element={<ContactPage />} />
 
