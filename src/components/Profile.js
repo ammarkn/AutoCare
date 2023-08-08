@@ -2,10 +2,15 @@
 
 import React from 'react';
 import {useState, useEffect} from 'react';
-import {useNavigate, Link} from "react-router-dom";
+import {Link} from "react-router-dom";
 import './Profile.css';
 import axios from 'axios';
 import {Helmet} from 'react-helmet';
+
+const vehicleImages = ["https://hips.hearstapps.com/hmg-prod/images/2019-honda-civic-sedan-1558453497.jpg?crop=1xw:0.9997727789138833xh;center,top&resize=980:*",
+"https://hips.hearstapps.com/hmg-prod/images/2019-mercedes-benz-e-class-coupe-1548703839.jpg?crop=1xw:0.9997727789138833xh;center,top&resize=980:*",
+"https://hips.hearstapps.com/hmg-prod/amv-prod-cad-assets/images/12q1/435356/2014-mercedes-benz-s-class-future-cars-car-and-driver-photo-447463-s-original.jpg?resize=980:*"
+]
 
 function Profile() {
     const [firstName, setFirstName] = useState('...');
@@ -18,10 +23,12 @@ function Profile() {
     const [editEmail, setEditEmail] = useState('...');
     const [editAddress, setEditAddress] = useState('...');
     const [edit, setEdit] = useState(false);
+    const [vehicles, setVehicles] = useState([]);
+    const [editVehicles, setEditVehicles] = useState(false);
+    const [vehicleMake, setVehicleMake] = useState('');
+    const [vehicleModel, setVehicleModel] = useState('');
 
     const userId = localStorage.getItem('userID');
-
-    const navigate = useNavigate();
 
     useEffect(() => {
         axios.get(`https://csci-4177-grp-21.onrender.com/user?id=${userId}`)
@@ -40,11 +47,25 @@ function Profile() {
             .catch((error) => {
                 console.log(`Error: ${error}`);
             })
+
+        axios.get(`https://csci-4177-grp-21.onrender.com/vehicles?id=${userId}`)
+            .then((response) => {
+                const vehicleImage = response.data.map(vehicle => {
+                    return {
+                        ...vehicle,
+                        image: vehicleImages[Math.floor(Math.random() * vehicleImages.length)]
+                    };
+                })
+                setVehicles(vehicleImage);
+            })
+            .catch((error) => {
+                console.log(`Error: ${error}`);
+            })
     }, [userId]);
 
     const handleLogout = () => {
         localStorage.removeItem('userID');
-        navigate('/login');
+        window.location.href = '/login';
     }
 
     const editForm = () => {
@@ -61,6 +82,25 @@ function Profile() {
                 setEmail(editEmail);
                 setAddress(editAddress);
                 setEdit(false);
+            });
+    };
+
+    const editVehicleButton = () => {
+        setEditVehicles(v => !v);
+    }
+
+    const editVehicleForm = () => {
+        const editVehicle = {
+            UserID: userId,
+            Make: vehicleMake,
+            Model: vehicleModel
+        };
+        axios.post('https://csci-4177-grp-21.onrender.com/addVehicle', editVehicle)
+            .then(() => {
+                setVehicles(v => [...v, editVehicle]);
+                setVehicleMake('');
+                setVehicleModel('');
+                editVehicleButton();
             });
     };
 
@@ -104,9 +144,27 @@ function Profile() {
                     </div>
                     <div>
                         <h2>Vehicles</h2>
-                        <img src="https://hips.hearstapps.com/hmg-prod/images/2019-honda-civic-sedan-1558453497.jpg?crop=1xw:0.9997727789138833xh;center,top&resize=980:*" alt="Vehicle 1" className="vehicle-image"></img>
-                        <br/><img src="https://hips.hearstapps.com/hmg-prod/images/2019-mercedes-benz-e-class-coupe-1548703839.jpg?crop=1xw:0.9997727789138833xh;center,top&resize=980:*" alt="Vehicle 2" className="vehicle-image"></img>
-                        <br/><button>Edit Vehicles</button>
+                        {
+                            vehicles.map(vehicle => {
+                                // const randomVehicle = vehicleImages[Math.floor(Math.random() * vehicleImages.length)];
+                                return (
+                                    <div key={vehicle.VehicleID}>
+                                        <img src={vehicle.image} alt="Vehicle" className="vehicle-image"></img>
+                                        <h4>{vehicle.Make} - {vehicle.Model}</h4>
+                                    </div>
+                                )
+                            })
+                        }
+                        {
+                            editVehicles
+                                ? <div>
+                                    Make: <input value={vehicleMake} onChange={e => setVehicleMake(e.target.value)} />
+                                    <br/>Model: <input value={vehicleModel} onChange={e => setVehicleModel(e.target.value)} />
+                                    <br/><button onClick={editVehicleForm}>Save Vehicle</button>
+                                    <br/><button onClick={editVehicleButton}>Cancel</button>
+                                </div>
+                        : <button onClick={editVehicleButton}>Edit Vehicles</button>
+                        }
                     </div>
                 </div>
             </div>
