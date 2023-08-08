@@ -20,7 +20,7 @@ const VendorInformation = () => {
             return;
         }
         try {
-            await axios.post('http://localhost:5022/addOrder', { vendor_id: id, package: selectedPackage });
+            await axios.post('https://csci-4177-grp-21.onrender.com/addOrder', { vendor_id: id, package: selectedPackage });
             navigate(`/purchase-order/${id}`);
         } catch (error) {
             console.error("Error placing order:", error);
@@ -30,7 +30,7 @@ const VendorInformation = () => {
     useEffect(() => {
         const fetchVendorDetails = async () => {
             try {
-                const response = await axios.get(`http://localhost:5022/vendors/${id}`);
+                const response = await axios.get(`https://csci-4177-grp-21.onrender.com/vendors/${id}`);
                 setVendorDetails(response.data);
             } catch (error) {
                 console.error("Error fetching vendor details:", error);

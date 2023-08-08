@@ -13,7 +13,7 @@ const PurchaseOrder = () => {
     useEffect(() => {
         const fetchOrders = async () => {
             try {
-                const response = await axios.get(`http://localhost:5022/getOrders/${id}`);
+                const response = await axios.get(`https://csci-4177-grp-21.onrender.com/getOrders/${id}`);
                 setOrders(response.data);
             } catch (error) {
                 console.error("Error fetching orders:", error);

@@ -61,7 +61,7 @@ const Vendor = () => {
                 >
                     <div className="vendor-card">
                         <img
-                            src={shuffledImages[index % shuffledImages.length]}  // Cycle through shuffled images
+                            src={shuffledImages[index % shuffledImages.length]} 
                             alt={vendor.vendor_name}
                             className="vendor-image"
                         />
