@@ -116,7 +116,6 @@ app.get('/review', (req, res) => {
 });
 
 app.post('/addReview', (req, res) => {
-  console.log(req.body);
   const sql = 'INSERT INTO vendors_review (vendor_id, rating, heading, description) VALUES (?, ?, ?, ?)';
   const { vendor_id, rating, heading, description } = req.body;
   conn.query(sql, [vendor_id, rating, heading, description], (err) => {
