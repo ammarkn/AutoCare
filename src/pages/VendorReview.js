@@ -26,7 +26,6 @@ function VendorReview() {
     axios
       .get(`https://csci-4177-grp-21.onrender.com/vendors/${vendorId}`)
       .then((response) => {
-        console.log(response.data);
         setVendorName(response.data.vendor_name);
         setVendorAddress(response.data.location);
       })
@@ -64,7 +63,6 @@ function VendorReview() {
     axios
       .post("https://csci-4177-grp-21.onrender.com/addReview", newReview)
       .then((response) => {
-        console.log(response.data);
         alert("Review Added Successfully!");
         window.location.reload();
       })
