@@ -1,5 +1,6 @@
 /* Created by 
 SAMEER MOHAMED, B00845973 */
+
 .vendor-container {
     display: grid;
     grid-template-columns: 1fr;
@@ -19,8 +20,8 @@ SAMEER MOHAMED, B00845973 */
   }
   
   .vendor-image {
-    width: 700px;
-    height: 400px;
+    width: 900px;
+    height: 500px;
     object-fit: cover;
     margin-bottom: 1rem;
   }

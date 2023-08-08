@@ -11,8 +11,7 @@ function AllVendorReview() {
   const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
-    // TODO: remove, and get once vendor page is implemented
-    const vendor_id = 1;
+    const vendor_id = localStorage.getItem("selectedVendorId") ?? "";
 
     axios
       .get(`https://csci-4177-grp-21.onrender.com/review?id=${vendor_id}`)
