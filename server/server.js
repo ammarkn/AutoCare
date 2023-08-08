@@ -102,7 +102,7 @@ app.get('/review', (req, res) => {
         throw err;
       }
       else if (result.length === 0) {
-        res.status(404).send('vendor not found');
+        res.status(204).send('reviews not found for this vendor');
       }
       else {
         const reviews = result.map(item => ({
