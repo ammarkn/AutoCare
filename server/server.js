@@ -12,99 +12,116 @@ app.use(express.json());
 app.use(bodyParser.json());
 
 const mysql = require('mysql');
-const conn = mysql.createConnection({
+
+const pool = mysql.createPool({
   host: 'sql9.freemysqlhosting.net',
   user: 'sql9635361',
   port: 3306,
   password: '7mKRztMdjg',
-  database: 'sql9635361'
+  database: 'sql9635361',
+  connectionLimit: 10
 });
 
-conn.connect(function(err) {
-if (err) throw err;
-  console.log('Database is connected successfully!');
-});
-module.exports = conn;
+// pool.connect(function(err) {
+// if (err) throw err;
+//   console.log('Database is connected successfully!');
+// });
+module.exports = pool;
 
 const port = process.env.PORT || 5022;
 
 app.listen(port, () => {
+  console.log('Database is connected successfully!');
   console.log(`Server running on port ${port}`);
 });
 
 app.get('/user', (req, res) => {
   const userID = req.query.id;
   const sql = 'SELECT FirstName, LastName, Email, Password, Address, DateJoined FROM Users WHERE UserID = ?';
-  conn.query(sql, [userID], (err, result) => {
-      if(err) { 
-        throw err;
-      }
-      else if (result.length === 0) {
+  
+  pool.getConnection((err, connection) => {
+    if (err) throw err;
+    connection.query(sql, [userID], (error, result) => {
+      connection.release();
+      if (error) {
+        throw error;
+      } else if (result.length === 0) {
         res.status(404).send('User not found');
-      }
-      else {
+      } else {
         res.json({firstName: result[0].FirstName, lastName: result[0].LastName, email: result[0].Email, address: result[0].Address, dateJoined: result[0].DateJoined, password: result[0].Password});
       }
-    })
+    });
+  });
 });
 
 app.get('/vehicles', (req, res) => {
   const userID = req.query.id;
   const sql = 'SELECT * FROM Vehicles WHERE UserID = ?';
-  conn.query(sql, [userID], (err, result) => {
-    if(err) {
-      throw err;
-    }
-    else if(result.length === 0) {
-      res.status(404).send('No vehicles found');
-    }
-    else {
-      res.send(result);
-    }
-  })
-})
+
+  pool.getConnection((err, connection) => {
+    if (err) throw err;
+    connection.query(sql, [userID], (error, result) => {
+      connection.release();
+      if (error) {
+        throw error;
+      } else if(result.length === 0) {
+        res.status(404).send('No vehicles found');
+      } else {
+        res.send(result);
+      }
+    });
+  });
+});
 
 app.post('/addVehicle', (req, res) => {
   const {UserID, Make, Model} = req.body;
   const sql = 'INSERT INTO Vehicles (UserID, Make, Model) VALUES (?, ?, ?)';
-  conn.query(sql, [UserID, Make, Model], (err) => {
-    if(err) {
-      throw err;
-    }
-    else {
-      res.status(200).json({ message: 'Vehicle added successfully.' });
-    }
-  })
-}) 
+
+  pool.getConnection((err, connection) => {
+    if (err) throw err;
+    connection.query(sql, [UserID, Make, Model], (error) => {
+      connection.release();
+      if (error) {
+        throw error;
+      } else {
+        res.status(200).json({ message: 'Vehicle added successfully.' });
+      }
+    });
+  });
+});
 
 app.post('/userUpdate', (req, res) => {
   const userID = req.query.id;
   const sql = 'UPDATE Users SET FirstName = ?, LastName = ?, Email = ?, Address = ? WHERE UserID = ?';
-  const {firstName, lastName, email, address} = req.body;
+  const { firstName, lastName, email, address } = req.body;
 
-  conn.query(sql, [firstName, lastName, email, address, userID], (err) => {
-    if(err) {
-      throw err;
-    }
-    else {
-      res.send('User updated');
-    }
-  })
+  pool.getConnection((err, connection) => {
+    if (err) throw err;
+    connection.query(sql, [firstName, lastName, email, address, userID], (error) => {
+      connection.release();
+      if (error) {
+        throw error;
+      } else {
+        res.send('User updated');
+      }
+    });
+  });
 });
 
 // API Endpoints for Vendor Review Table
-
 app.get('/review', (req, res) => {
   const vendor_id = req.query.id;
   const sql = 'SELECT * FROM vendors_review WHERE vendor_id = ?';
-  conn.query(sql, [vendor_id], (err, result) => {
-      if(err) { 
-        throw err;
-      }
-      else if (result.length === 0) {
+
+  pool.getConnection((err, connection) => {
+    if (err) throw err;
+    connection.query(sql, [vendor_id], (error, result) => {
+      connection.release();
+      if (error) { 
+        throw error;
+      } else if (result.length === 0) {
         res.status(404).send('vendor not found');
-      }
-      else {
+      } else {
         const reviews = result.map(item => ({
           rating: item.rating,
           heading: item.heading,
@@ -113,32 +130,41 @@ app.get('/review', (req, res) => {
         res.json(reviews);
       }
     });
+  });
 });
 
 app.post('/addReview', (req, res) => {
-  console.log(req.body);
   const sql = 'INSERT INTO vendors_review (vendor_id, rating, heading, description) VALUES (?, ?, ?, ?)';
   const { vendor_id, rating, heading, description } = req.body;
-  conn.query(sql, [vendor_id, rating, heading, description], (err) => {
-    if(err) {
-      throw err;
-    }
-    else {
-      res.send('review added');
-    }
-  })
+
+  pool.getConnection((err, connection) => {
+    if (err) throw err;
+    connection.query(sql, [vendor_id, rating, heading, description], (error) => {
+      connection.release();
+      if (error) {
+        throw error;
+      } else {
+        res.send('review added');
+      }
+    });
+  });
 });
 
 //Function by Sameer 
 app.get('/vendors', (req, res) => {
   const sql = 'SELECT * FROM vendors';
-  conn.query(sql, (err, result) => {
-    if (err) {
-      console.error("Error fetching vendors:", err);
-      res.status(500).send("Error fetching vendors");
-    } else {
-      res.json(result);
-    }
+
+  pool.getConnection((err, connection) => {
+    if (err) throw err;
+    connection.query(sql, (error, result) => {
+      connection.release();
+      if (error) {
+        console.error("Error fetching vendors:", error);
+        res.status(500).send("Error fetching vendors");
+      } else {
+        res.json(result);
+      }
+    });
   });
 });
 
@@ -146,17 +172,22 @@ app.get('/vendors', (req, res) => {
 app.get('/vendors/:id', (req, res) => {
   const vendorId = req.params.id;
   const sql = 'SELECT * FROM vendors WHERE vendor_id = ?';
-  conn.query(sql, [vendorId], (err, result) => {
-    if (err) {
-      console.error("Error fetching vendor details:", err);
-      res.status(500).send("Error fetching vendor details");
-    } else {
-      if (result.length === 0) {
-        res.status(404).send("Vendor not found");
+
+  pool.getConnection((err, connection) => {
+    if (err) throw err;
+    connection.query(sql, [vendorId], (error, result) => {
+      connection.release();
+      if (error) {
+        console.error("Error fetching vendor details:", error);
+        res.status(500).send("Error fetching vendor details");
       } else {
-        res.json(result[0]);
+        if (result.length === 0) {
+          res.status(404).send("Vendor not found");
+        } else {
+          res.json(result[0]);
+        }
       }
-    }
+    });
   });
 });
 
@@ -165,13 +196,17 @@ app.post('/addOrder', (req, res) => {
   let { vendor_id, package } = req.body;
   const query = `INSERT INTO orders(vendor_id, package) VALUES(${mysql.escape(vendor_id)}, ${mysql.escape(package)})`;
 
-  conn.query(query, (err, result) => {
-    if (err) {
-      console.error('Error inserting data:', err);
-      res.status(500).json({ message: 'Error inserting data' });
-    } else {
-      res.status(200).json({ message: 'Order placed successfully' });
-    }
+  pool.getConnection((err, connection) => {
+    if (err) throw err;
+    connection.query(query, (error, result) => {
+      connection.release();
+      if (error) {
+        console.error('Error inserting data:', error);
+        res.status(500).json({ message: 'Error inserting data' });
+      } else {
+        res.status(200).json({ message: 'Order placed successfully' });
+      }
+    });
   });
 });
 
@@ -179,12 +214,17 @@ app.post('/addOrder', (req, res) => {
 app.get('/getOrders/:id', (req, res) => {
   const vendorId = req.params.id;
   const sql = 'SELECT * FROM orders WHERE vendor_id = ?';
-  conn.query(sql, [vendorId], (err, result) => {
-      if(err) {
+
+  pool.getConnection((err, connection) => {
+    if (err) throw err;
+    connection.query(sql, [vendorId], (error, result) => {
+      connection.release();
+      if (error) {
           res.status(500).send("Error fetching orders");
       } else {
           res.json(result);
       }
+    });
   });
 });
 
@@ -192,50 +232,44 @@ app.get('/getOrders/:id', (req, res) => {
 app.post('/login', (req, res) => {
   const {email, password} = req.body;
   const sql = 'SELECT * FROM Users WHERE Email = ?';
-  conn.query(sql, [email], async (err, result) => {
-    if(err) {
-      throw err;
-    }
-    else if(result.length === 0) {
-      res.status(404).send('User not found');
-    }
-    else {
-      const user = result[0];
-      const hashedPass = user.Password;
-      const verify = await bcrypt.compare(password, hashedPass);
 
-      if(verify) {
-        res.json({userID: user.UserID});
+  pool.getConnection((err, connection) => {
+    if (err) throw err;
+    connection.query(sql, [email], async (error, result) => {
+      connection.release();
+      if (error) {
+        throw error;
+      } else if (result.length === 0) {
+        res.status(404).send('User not found');
+      } else {
+        const user = result[0];
+        const hashedPass = user.Password;
+        const verify = await bcrypt.compare(password, hashedPass);
+
+        if (verify) {
+          res.json({ userID: user.UserID });
+        } else {
+          res.status(403).send('Invalid credentials.');
+        }
       }
-      else {
-        res.status(403).send('Invalid credentials.')
-      }
-    }
-  })
-})
+    });
+  });
+});
 
 
 // Function by Yara
-// this function takes user input and checks if a user exists.
-// If a user exists, an error occurs and user is prompted to log in.
-// If a user does not exist, the user is added to the database and their account is created successfully.
 app.post('/api/register', async (req, res) => {
   const { FirstName, LastName, Email, Password } = req.body;
+  const UserID = uuid.v4();
 
-  const UserID = uuid.v4(); 
-
-  try {
+  pool.getConnection((err, connection) => {
+    if (err) throw err;
 
     const checkIfUserExists = 'SELECT * FROM Users WHERE Email = ?';
 
-    conn.query(checkIfUserExists, [Email], async(checkError, checkResult) => {
-      
-      if (checkError) {
-        console.error('An error occurred when verifying that user does not exist:', checkError);
-        return res.status(500).json({ error: 'An error occurred when verifying that user does not exist.' });
-      }
-
+    connection.query(checkIfUserExists, [Email], async (checkError, checkResult) => {
       if (checkResult.length > 0) {
+        connection.release();
         return res.status(409).send({ error: 'User with this email already exists. Please log in.' });
       }
 
@@ -243,57 +277,60 @@ app.post('/api/register', async (req, res) => {
 
       const addUser = 'INSERT INTO Users (UserID, FirstName, LastName, Email, Password) VALUES (?, ?, ?, ?, ?)';
     
-      conn.query(addUser, [UserID, FirstName, LastName, Email, hashedPass], (err, result) => {
-      
-        if (err) {
-          console.error('An error occurred when inserting user details:', err);
+      connection.query(addUser, [UserID, FirstName, LastName, Email, hashedPass], (addError, result) => {
+        connection.release();
+        if (addError) {
+          console.error('An error occurred when inserting user details:', addError);
           return res.status(500).json({ error: 'An error occurred when creating an account.' });
         } else {
           return res.status(200).json({ message: 'Registration successful.' });
         }
       });
-
     });
-
-  } catch (error) {
-    console.error('Registration error:', error);
-    return res.status(500).json({ error: 'An unexpected error occurred during registration.' });
-  }
+  });
 });
-
 
 /**
  * Created By: Raunak Singh
  * API Endpoints for 'blogs' table
  */
-
 app.get("/blogs", (req, res) => {
   const sql = "SELECT * FROM blogs";
-  conn.query(sql, (err, result) => {
-    if (err) {
-      console.error("Error fetching blogs:", err);
-      res.status(500).send("Error fetching blogs");
-    } else {
-      const blogs = result.map((item) => ({
-        user_id: item.user_id,
-        title: item.title,
-        content: item.content,
-        date_posted: item.date_posted,
-      }));
-      res.json(blogs);
-    }
+
+  pool.getConnection((err, connection) => {
+    if (err) throw err;
+    connection.query(sql, (error, result) => {
+      connection.release();
+      if (error) {
+        console.error("Error fetching blogs:", error);
+        res.status(500).send("Error fetching blogs");
+      } else {
+        const blogs = result.map((item) => ({
+          user_id: item.user_id,
+          title: item.title,
+          content: item.content,
+          date_posted: item.date_posted,
+        }));
+        res.json(blogs);
+      }
+    });
   });
 });
 
 app.post("/addBlog", (req, res) => {
-  const sql =
-    "INSERT INTO blogs (user_id, title, content, date_posted) VALUES (?, ?, ?, ?)";
+  const sql = "INSERT INTO blogs (user_id, title, content, date_posted) VALUES (?, ?, ?, ?)";
   const { user_id, title, content, date_posted } = req.body;
-  conn.query(sql, [user_id, title, content, date_posted], (err) => {
-    if (err) {
-      throw err;
-    } else {
-      res.send("blog added");
-    }
+
+  pool.getConnection((err, connection) => {
+    if (err) throw err;
+    connection.query(sql, [user_id, title, content, date_posted], (error, result) => {
+      connection.release();
+      if (error) {
+        console.error("Error adding blog:", error);
+        res.status(500).send("Error adding blog");
+      } else {
+        res.status(200).json({ message: "Blog added successfully", blogId: result.insertId });
+      }
+    });
   });
 });
