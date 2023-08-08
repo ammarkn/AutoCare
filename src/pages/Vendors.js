@@ -53,6 +53,13 @@ const Vendor = () => {
 
     return (
         <div className="vendor-container">
+
+            <div className="vendors-list-heading">Vendors List</div>
+
+            <div className="vendors-list-subheading">
+                All available vendors to book a service from.
+            </div>
+
             {vendors.map((vendor, index) => (
                 <Link
                     key={vendor.vendor_id}
@@ -61,7 +68,7 @@ const Vendor = () => {
                 >
                     <div className="vendor-card">
                         <img
-                            src={shuffledImages[index % shuffledImages.length]} 
+                            src={shuffledImages[index % shuffledImages.length]}
                             alt={vendor.vendor_name}
                             className="vendor-image"
                         />
