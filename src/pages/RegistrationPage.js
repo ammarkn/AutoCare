@@ -18,6 +18,7 @@ const RegistrationPage = () => {
         setFormErrors(validate(fName, lName, email, password));
         setIsSubmit(true);
         registerUser();
+        window.location.href = '/login';
     }
 
     useEffect(() => {
@@ -98,7 +99,7 @@ const RegistrationPage = () => {
                     <div class="container">
                         <div class="signup-content">
                             <div class="signup-form">
-                                <h2 class="form-title">Sign up</h2>
+                                <h2 class="form-title">Register</h2>
                                 <form onSubmit={handleSubmit} class="register-form" id="register-form">
                                     
                                     <div class="form-group">
