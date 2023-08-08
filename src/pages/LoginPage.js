@@ -1,8 +1,8 @@
 // Yara Ahmed (B00830192) is the author of this page
+// Modified by Ammar Khan (B00836303)
 
 import React, { useState} from "react";
 import axios from 'axios';
-import {useNavigate} from "react-router-dom";
 import "./css/RegistrationPage.css";
 import logInImage from "./images/login-image.png";
 
@@ -10,8 +10,6 @@ const LoginPage = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [formErrors, setFormErrors] = useState({});
-
-    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -24,7 +22,7 @@ const LoginPage = () => {
                     password: password,
                 });
                 localStorage.setItem('userID', response.data.userID);
-                navigate('/profile');
+                window.location.href = '/profile';
             } catch(error) {
                 console.error('Login error: ', error);
             }

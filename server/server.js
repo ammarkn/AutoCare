@@ -48,6 +48,35 @@ app.get('/user', (req, res) => {
     })
 });
 
+app.get('/vehicles', (req, res) => {
+  const userID = req.query.id;
+  const sql = 'SELECT * FROM Vehicles WHERE UserID = ?';
+  conn.query(sql, [userID], (err, result) => {
+    if(err) {
+      throw err;
+    }
+    else if(result.length === 0) {
+      res.status(404).send('No vehicles found');
+    }
+    else {
+      res.send(result);
+    }
+  })
+})
+
+app.post('/addVehicle', (req, res) => {
+  const {UserID, Make, Model} = req.body;
+  const sql = 'INSERT INTO Vehicles (UserID, Make, Model) VALUES (?, ?, ?)';
+  conn.query(sql, [UserID, Make, Model], (err) => {
+    if(err) {
+      throw err;
+    }
+    else {
+      res.status(200).json({ message: 'Vehicle added successfully.' });
+    }
+  })
+}) 
+
 app.post('/userUpdate', (req, res) => {
   const userID = req.query.id;
   const sql = 'UPDATE Users SET FirstName = ?, LastName = ?, Email = ?, Address = ? WHERE UserID = ?';
