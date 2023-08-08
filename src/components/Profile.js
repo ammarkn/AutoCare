@@ -95,7 +95,7 @@ function Profile() {
             Make: vehicleMake,
             Model: vehicleModel
         };
-        axios.post('https://csci-4177-grp-21.onrender.com/addVehicle', editVehicle)
+        axios.post(`https://csci-4177-grp-21.onrender.com/addVehicle`, editVehicle)
             .then(() => {
                 setVehicles(v => [...v, editVehicle]);
                 setVehicleMake('');
@@ -103,6 +103,13 @@ function Profile() {
                 editVehicleButton();
             });
     };
+
+    const deleteVehicleButton = (VehicleID) => {
+        axios.delete(`https://csci-4177-grp-21.onrender.com/deleteVehicle?VehicleID=${VehicleID}`)
+            .then(() => {
+                setVehicles(v => v.filter(vehicle => vehicle.vehicleID !== VehicleID));
+            });
+    }
 
     return (
         <div className='container'>
@@ -146,11 +153,11 @@ function Profile() {
                         <h2>Vehicles</h2>
                         {
                             vehicles.map(vehicle => {
-                                // const randomVehicle = vehicleImages[Math.floor(Math.random() * vehicleImages.length)];
                                 return (
                                     <div key={vehicle.VehicleID}>
                                         <img src={vehicle.image} alt="Vehicle" className="vehicle-image"></img>
                                         <h4>{vehicle.Make} - {vehicle.Model}</h4>
+                                        <button onClick={() => deleteVehicleButton(vehicle.VehicleID_)}>Delete Vehicle</button>
                                     </div>
                                 )
                             })
@@ -163,7 +170,7 @@ function Profile() {
                                     <br/><button onClick={editVehicleForm}>Save Vehicle</button>
                                     <br/><button onClick={editVehicleButton}>Cancel</button>
                                 </div>
-                        : <button onClick={editVehicleButton}>Edit Vehicles</button>
+                        : <button onClick={editVehicleButton}>Add Vehicle(s)</button>
                         }
                     </div>
                 </div>

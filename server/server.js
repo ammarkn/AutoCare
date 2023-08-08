@@ -19,7 +19,7 @@ const pool = mysql.createPool({
   port: 3306,
   password: '7mKRztMdjg',
   database: 'sql9635361',
-  connectionLimit: 10
+  connectionLimit: 5
 });
 
 // pool.connect(function(err) {
@@ -54,6 +54,7 @@ app.get('/user', (req, res) => {
   });
 });
 
+// Function by Ammar
 app.get('/vehicles', (req, res) => {
   const userID = req.query.id;
   const sql = 'SELECT * FROM Vehicles WHERE UserID = ?';
@@ -73,6 +74,7 @@ app.get('/vehicles', (req, res) => {
   });
 });
 
+// Function by Ammar
 app.post('/addVehicle', (req, res) => {
   const {UserID, Make, Model} = req.body;
   const sql = 'INSERT INTO Vehicles (UserID, Make, Model) VALUES (?, ?, ?)';
@@ -90,6 +92,25 @@ app.post('/addVehicle', (req, res) => {
   });
 });
 
+app.delete('/deleteVehicle', (req, res) => {
+  const {VehicleID} = req.body;
+  const sql = 'DELETE FROM Vehicles WHERE VehicleID = ?';
+  
+  pool.getConnection((err, connection) => {
+    if(err) throw err;
+    connection.query(sql, [VehicleID], (error) => {
+      connection.release();
+      if (error) {
+        throw error;
+      }
+      else {
+        res.send('Vehicle deleted');
+      }
+    })
+  })
+})
+
+// Function by Ammar
 app.post('/userUpdate', (req, res) => {
   const userID = req.query.id;
   const sql = 'UPDATE Users SET FirstName = ?, LastName = ?, Email = ?, Address = ? WHERE UserID = ?';
