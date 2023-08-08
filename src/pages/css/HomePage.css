@@ -34,18 +34,6 @@
     margin-bottom: 20px;
 }
 
-body,
-html {
-    height: 100%;
-    margin: 0;
-    font-size: large;
-    align-items: center;
-}
-
-* {
-    box-sizing: border-box;
-}
-
 .bg-image {
     height: 500px;
     background-position: center;
@@ -53,7 +41,6 @@ html {
     background-size: cover;
 }
 
-/* New Styles */
 .main-content {
     display: flex;
     align-items: center;
