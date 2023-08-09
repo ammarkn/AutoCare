@@ -18,6 +18,7 @@ const RegistrationPage = () => {
         setFormErrors(validate(fName, lName, email, password));
         setIsSubmit(true);
         registerUser();
+        window.location.href = '/login';
     }
 
     useEffect(() => {

@@ -44,7 +44,6 @@ function WriteBlog() {
     await axios
       .post("https://csci-4177-grp-21.onrender.com/addBlog", newBlog)
       .then((response) => {
-        console.log(response.data);
         alert("Maintenance Blog Submitted Successfully!");
         navigate("/blogs");
       })

@@ -19,7 +19,6 @@ function Reviews() {
         axios
             .get("https://csci-4177-grp-21.onrender.com/vendors")
             .then((response) => {
-                console.log(response.data);
                 setVendors(response.data);
             })
             .catch((error) => {

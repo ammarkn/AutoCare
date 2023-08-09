@@ -16,7 +16,6 @@ function AllVendorReview() {
     axios
       .get(`https://csci-4177-grp-21.onrender.com/review?id=${vendor_id}`)
       .then((response) => {
-        console.log(response.data);
         setReviews(response.data);
       })
       .catch((error) => {
@@ -30,17 +29,21 @@ function AllVendorReview() {
         All Customer Reviews
       </div>
 
-      <div className="review-container">
-        {reviews.map((review, index) => (
-          <div key={index} className="review-comp">
-            <h3>{review.heading}</h3>
-            <div className="ind-rating-star ">
-              <Rating name="read-only" value={review.rating} readOnly />
+      {reviews.length === 0 ? (
+        <p>No reviews were found for this vendor.</p>
+      ) : (
+        <div className="review-container">
+          {reviews.map((review, index) => (
+            <div key={index} className="review-comp">
+              <h3>{review.heading}</h3>
+              <div className="ind-rating-star ">
+                <Rating name="read-only" value={review.rating} readOnly />
+              </div>
+              <p>{review.description}</p>
             </div>
-            <p>{review.description}</p>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
