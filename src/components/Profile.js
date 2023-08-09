@@ -6,11 +6,11 @@ import {Link} from "react-router-dom";
 import './Profile.css';
 import axios from 'axios';
 import {Helmet} from 'react-helmet';
+import HondaCivic from '../pages/images/2014-mercedes-benz-s-class.jpg';
+import MercedesBenzS from '../pages/images/2014-mercedes-benz-s-class.jpg';
+import MercedesBenzE from '../pages/images/2019-mercedes-benz-e-class-coupe.jpg';
 
-const vehicleImages = ["https://hips.hearstapps.com/hmg-prod/images/2019-honda-civic-sedan-1558453497.jpg?crop=1xw:0.9997727789138833xh;center,top&resize=980:*",
-"https://hips.hearstapps.com/hmg-prod/images/2019-mercedes-benz-e-class-coupe-1548703839.jpg?crop=1xw:0.9997727789138833xh;center,top&resize=980:*",
-"https://hips.hearstapps.com/hmg-prod/amv-prod-cad-assets/images/12q1/435356/2014-mercedes-benz-s-class-future-cars-car-and-driver-photo-447463-s-original.jpg?resize=980:*"
-]
+const vehicleImages = [HondaCivic, MercedesBenzS, MercedesBenzE];
 
 function Profile() {
     const [firstName, setFirstName] = useState('...');
@@ -68,6 +68,18 @@ function Profile() {
         window.location.href = '/login';
     }
 
+    const formatDate = (dateString) => {
+        // Reference for `toLocaleDateString`, URL: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleDateString
+        const options = {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+          timeZone: "UTC",
+        };
+        const date = new Date(dateString);
+        return date.toLocaleDateString(undefined, options);
+      };
+
     const editForm = () => {
         const editUser = {
             firstName: editFirstName,
@@ -107,7 +119,7 @@ function Profile() {
     const deleteVehicleButton = (VehicleID) => {
         axios.delete(`https://csci-4177-grp-21.onrender.com/deleteVehicle?VehicleID=${VehicleID}`)
             .then(() => {
-                setVehicles(v => v.filter(vehicle => vehicle.vehicleID !== VehicleID));
+                setVehicles(v => v.filter(vehicle => vehicle.VehicleID !== VehicleID));
             });
     }
 
@@ -147,7 +159,7 @@ function Profile() {
                         <h2>Details</h2>
                         <p><strong-1>Email:</strong-1> {email}</p>
                         <p><strong-1>Address:</strong-1> {address}</p>
-                        <p><strong-1>Date Joined:</strong-1> {dateJoined}</p>
+                        <p><strong-1>Date Joined:</strong-1> {formatDate(dateJoined)}</p>
                     </div>
                     <div>
                         <h2>Vehicles</h2>
@@ -157,7 +169,7 @@ function Profile() {
                                     <div key={vehicle.VehicleID}>
                                         <img src={vehicle.image} alt="Vehicle" className="vehicle-image"></img>
                                         <h4>{vehicle.Make} - {vehicle.Model}</h4>
-                                        <button onClick={() => deleteVehicleButton(vehicle.VehicleID_)}>Delete Vehicle</button>
+                                        <button onClick={() => deleteVehicleButton(vehicle.VehicleID)}>Delete Vehicle</button>
                                     </div>
                                 )
                             })

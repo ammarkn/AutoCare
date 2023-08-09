@@ -42,3 +42,6 @@ Netflify: https://inquisitive-valkyrie-34888f.netlify.app/
 * Logo/wheel icon: https://www.iconsdb.com/white-icons/steering-wheel-icon.html
 * Black Car in Home Page: https://unsplash.com/photos/Ng3xrviPrhk
 * Car Wash Image on Reviews Page: https://unsplash.com/photos/pLRXgwOefDo
+* 2019 Honda Civic Image: https://hips.hearstapps.com/hmg-prod/images/2019-honda-civic-sedan-1558453497.jpg
+* 2019 Mercedes Benz E Class Couple Image: https://hips.hearstapps.com/hmg-prod/images/2019-mercedes-benz-e-class-coupe-1548703839.jpg
+* 2014 Mercedes Benz S Class Image: https://hips.hearstapps.com/hmg-prod/amv-prod-cad-assets/images/12q1/435356/2014-mercedes-benz-s-class-future-cars-car-and-driver-photo-447463-s-original.jpg
