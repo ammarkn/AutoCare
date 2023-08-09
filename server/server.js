@@ -19,7 +19,7 @@ const pool = mysql.createPool({
   port: 3306,
   password: '7mKRztMdjg',
   database: 'sql9635361',
-  connectionLimit: 5
+  connectionLimit: 8
 });
 
 // pool.connect(function(err) {
@@ -92,8 +92,9 @@ app.post('/addVehicle', (req, res) => {
   });
 });
 
+// Function by Ammar
 app.delete('/deleteVehicle', (req, res) => {
-  const {VehicleID} = req.body;
+  const {VehicleID} = req.query;
   const sql = 'DELETE FROM Vehicles WHERE VehicleID = ?';
   
   pool.getConnection((err, connection) => {
@@ -284,11 +285,13 @@ app.post('/api/register', async (req, res) => {
   const UserID = uuid.v4();
 
   pool.getConnection((err, connection) => {
-    if (err) throw err;
+    if (err) {
+      console.log("Error:", err);
+    }
 
     const checkIfUserExists = 'SELECT * FROM Users WHERE Email = ?';
 
-    connection.query(checkIfUserExists, [Email], async (checkError, checkResult) => {
+    connection.query(checkIfUserExists, [Email], async (checkResult) => {
       if (checkResult.length > 0) {
         connection.release();
         return res.status(409).send({ error: 'User with this email already exists. Please log in.' });
@@ -298,7 +301,7 @@ app.post('/api/register', async (req, res) => {
 
       const addUser = 'INSERT INTO Users (UserID, FirstName, LastName, Email, Password) VALUES (?, ?, ?, ?, ?)';
     
-      connection.query(addUser, [UserID, FirstName, LastName, Email, hashedPass], (addError, result) => {
+      connection.query(addUser, [UserID, FirstName, LastName, Email, hashedPass], (addError) => {
         connection.release();
         if (addError) {
           console.error('An error occurred when inserting user details:', addError);
@@ -310,6 +313,7 @@ app.post('/api/register', async (req, res) => {
     });
   });
 });
+
 
 /**
  * Created By: Raunak Singh
