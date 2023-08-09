@@ -292,8 +292,8 @@ app.post('/api/register', async (req, res) => {
     const checkIfUserExists = 'SELECT * FROM Users WHERE Email = ?';
 
     connection.query(checkIfUserExists, [Email], async (checkResult) => {
-      connection.release();
       if (checkResult?.length > 0) {
+        connection.release();
         return res.status(409).send({ error: 'User with this email already exists. Please log in.' });
       }
 
