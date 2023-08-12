@@ -147,8 +147,8 @@ function Profile() {
                                     First Name: <input value={editFirstName} onChange={e => setEditFirstName(e.target.value)} />
                                     <br/>Last Name: <input value={editLastName} onChange={e => setEditLastName(e.target.value)} />
                                     <br/>Email: <input value={editEmail} onChange={e => setEditEmail(e.target.value)} />
-                                    <br/>Address: <input value={editAddress} onChange={e => setEditAddress(e.target.value)} />
-                                    <br/><button onClick={editForm}>Save Changes</button>
+                                    <br/>Address: <input value={editAddress} onChange={e => setEditAddress(e.target.value)} placeholder="Please enter your email." required />
+                                    <br/><button onClick={editForm} disabled={!editEmail || !editFirstName}>Save Changes</button>
                                 </div>
                         : <h3>{firstName} {lastName}</h3>
                         }
@@ -177,9 +177,9 @@ function Profile() {
                         {
                             editVehicles
                                 ? <div>
-                                    Make: <input value={vehicleMake} onChange={e => setVehicleMake(e.target.value)} />
-                                    <br/>Model: <input value={vehicleModel} onChange={e => setVehicleModel(e.target.value)} />
-                                    <br/><button onClick={editVehicleForm}>Save Vehicle</button>
+                                    Make: <input value={vehicleMake} onChange={e => setVehicleMake(e.target.value)} placeholder="Enter the vehicle make." />
+                                    <br/>Model: <input value={vehicleModel} onChange={e => setVehicleModel(e.target.value)} placeholder="Enter the vehicle model." />
+                                    <br/><button onClick={editVehicleForm} disabled={!vehicleMake || !vehicleModel}>Save Vehicle</button>
                                     <br/><button onClick={editVehicleButton}>Cancel</button>
                                 </div>
                         : <button onClick={editVehicleButton}>Add Vehicle(s)</button>
