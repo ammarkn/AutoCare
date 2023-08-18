@@ -14,11 +14,11 @@ app.use(bodyParser.json());
 const mysql = require('mysql');
 
 const pool = mysql.createPool({
-  host: 'sql9.freemysqlhosting.net',
-  user: 'sql9635361',
+  host: '*****',
+  user: ''*****',',
   port: 3306,
-  password: '7mKRztMdjg',
-  database: 'sql9635361',
+  password: ''*****',',
+  database: ''*****',',
   connectionLimit: 8
 });
 
