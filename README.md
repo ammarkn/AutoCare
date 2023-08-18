@@ -1,16 +1,9 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-# AutoCare : Group 21 Proposal Web Application
-
-* *Date Created*: 20 06 2023
-* *Last Modification Date*: 20 06 2023
-* *GitLab URL*: https://git.cs.dal.ca/ammar/csci-4177-grp-21
-* *Netlify URL*: https://inquisitive-valkyrie-34888f.netlify.app/
-* *GitHub Link*: https://github.com/Group-21-4177/CSCI-4177-Grp-21
+# AutoCare :
+* *Project URL*: https://inquisitive-valkyrie-34888f.netlify.app/
 
 ## Authors
-
-**[Optional]** If what is being submitted is an individual Lab or Assignment, you may simply include your name and email address. Otherwise list the members of your group.
 
 * [Sameer Mohamed](Sameer.Mohamed@dal.ca) - *(Developer)*
 * [Ammar Khan](Ammar.K@dal.ca) - *(Developer)*
